@@ -58,6 +58,14 @@ public class Actor {
         defVal = new Stat("Defense Value",0,"skill");
         weaponVal = new Stat("Weapon Value", 0, 0, "range");
     }
+    
+    Room getLocation(){
+        return location;
+    }
+    
+    public void setLocation(Room l){
+        location = l;
+    }
 
     public String health(){
         return "Health: " + health.getDisplay();
