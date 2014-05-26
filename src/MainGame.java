@@ -46,7 +46,6 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-
         textArea = new JTextArea(40, 50);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -79,6 +78,7 @@ public class MainGame extends JPanel implements ActionListener {
         playerAtkVal = new JLabel(mainBoard.getPlayer().atkVal());
         playerDefVal = new JLabel(mainBoard.getPlayer().defVal());
         playerWeaponVal = new JLabel(mainBoard.getPlayer().weaponVal());
+        textArea.append("Use the observe button to look around" + newline);
     }
 
     public MainGame(int x){
@@ -87,6 +87,11 @@ public class MainGame extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
+        Actor player = mainBoard.getPlayer();
+        Room relativeLoc = player.getLocation();
+        for(Room r : mainBoard.getList()){
+            r.connectRooms();
+        }
         if (source == moveButton){
             /**Custom Button Text
              * Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
@@ -107,19 +112,31 @@ public class MainGame extends JPanel implements ActionListener {
                     options[0]);
 
             if(n == 0){
-                textArea.append("Moving North" + newline);
+                if(relativeLoc.getNorth() != null){
+                    textArea.append("Moving North from " + relativeLoc.getName() + newline);
+                    player.setLocation(relativeLoc.getNorth());
+                }
             }else if(n == 1){
-                textArea.append("Moving South" + newline);
+                if(relativeLoc.getSouth() != null){
+                textArea.append("Moving South from " + relativeLoc.getName()+ newline);
+                player.setLocation(relativeLoc.getSouth());
+                }
             }else if(n == 2){
-                textArea.append("Moving East" + newline);
+                if(relativeLoc.getEast() != null){
+                textArea.append("Moving East from " + relativeLoc.getName() + newline);
+                player.setLocation(relativeLoc.getEast());
+                }
             }else if(n == 3){
-                textArea.append("Moving West" + newline);
+                if(relativeLoc.getWest() != null){
+                textArea.append("Moving West from " + relativeLoc.getName() + newline);
+                player.setLocation(relativeLoc.getWest());
+                }
             }else if(n == JOptionPane.CLOSED_OPTION){
                 textArea.append("Movement Canceled" + newline);
             }
         }else if(source == observeButton){
-            textArea.append(mainBoard.getDesc() + newline);
-            textArea.append("The main player is " + mainBoard.getPlayerName() + newline);
+            textArea.append(relativeLoc.getDesc() + newline);
+            textArea.append("Exits: " + relativeLoc.getExits() + newline);
         }else if(source == abortButton){
             int n = JOptionPane.showConfirmDialog(frame, "Quit?");
             if(n == JOptionPane.YES_OPTION){
@@ -130,7 +147,7 @@ public class MainGame extends JPanel implements ActionListener {
             map.mapFrame();
         }
 
-        JMenuItem sourceMenu = (JMenuItem) event.getSource();
+        JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
         if(sourceMenu == quit){
             System.exit(0);
         }else if(sourceMenu == gameHelp){
@@ -205,7 +222,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(moveButton);
         buttonPanel.add(observeButton);
         buttonPanel.add(abortButton);
-        buttonPanel.add(mapButton);
+        //buttonPanel.add(mapButton);
 
         //Add stuff to main panel
         mainPanel.add(textPanel);
