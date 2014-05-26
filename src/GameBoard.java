@@ -19,7 +19,7 @@ public class GameBoard {
         player = new Actor(name);
         Room Centauri = new Room(this);
         Centauri.setName("Centauri");
-        Centauri.setDesc("A darkened docking bay strethces out in front of you, littered by dormant ships and shuttles.");
+        Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
         Room Dremol = new Room(0,-1, this);
         Dremol.setName("Dremol");
