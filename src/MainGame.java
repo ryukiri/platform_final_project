@@ -92,67 +92,70 @@ public class MainGame extends JPanel implements ActionListener {
         for(Room r : mainBoard.getList()){
             r.connectRooms();
         }
-        if (source == moveButton){
-            /**Custom Button Text
-             * Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
-             * http://stackoverflow.com/questions/1257420/making-a-joptionpane-with-4-options
-             **/
-            Object[] options = {"North",
-                    "South",
-                    "East",
-                    "West"};
-            int n = JOptionPane.showOptionDialog(
-                    frame,
-                    "Where would you like to move?",
-                    "Move",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
+        if(event.getSource() instanceof JButton) {
 
-            if(n == 0){
-                if(relativeLoc.getNorth() != null){
-                    textArea.append("Moving North from " + relativeLoc.getName() + newline);
-                    player.setLocation(relativeLoc.getNorth());
+            if (source == moveButton) {
+                /**Custom Button Text
+                 * Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
+                 * http://stackoverflow.com/questions/1257420/making-a-joptionpane-with-4-options
+                 **/
+                Object[] options = {"North",
+                        "South",
+                        "East",
+                        "West"};
+                int n = JOptionPane.showOptionDialog(
+                        frame,
+                        "Where would you like to move?",
+                        "Move",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+
+                if (n == 0) {
+                    if (relativeLoc.getNorth() != null) {
+                        textArea.append("Moving North from " + relativeLoc.getName() + newline);
+                        player.setLocation(relativeLoc.getNorth());
+                    }
+                } else if (n == 1) {
+                    if (relativeLoc.getSouth() != null) {
+                        textArea.append("Moving South from " + relativeLoc.getName() + newline);
+                        player.setLocation(relativeLoc.getSouth());
+                    }
+                } else if (n == 2) {
+                    if (relativeLoc.getEast() != null) {
+                        textArea.append("Moving East from " + relativeLoc.getName() + newline);
+                        player.setLocation(relativeLoc.getEast());
+                    }
+                } else if (n == 3) {
+                    if (relativeLoc.getWest() != null) {
+                        textArea.append("Moving West from " + relativeLoc.getName() + newline);
+                        player.setLocation(relativeLoc.getWest());
+                    }
+                } else if (n == JOptionPane.CLOSED_OPTION) {
+                    textArea.append("Movement Canceled" + newline);
                 }
-            }else if(n == 1){
-                if(relativeLoc.getSouth() != null){
-                textArea.append("Moving South from " + relativeLoc.getName()+ newline);
-                player.setLocation(relativeLoc.getSouth());
+            } else if (source == observeButton) {
+                textArea.append(relativeLoc.getDesc() + newline);
+                textArea.append("Exits: " + relativeLoc.getExits() + newline);
+            } else if (source == abortButton) {
+                int n = JOptionPane.showConfirmDialog(frame, "Quit?");
+                if (n == JOptionPane.YES_OPTION) {
+                    System.exit(0);
                 }
-            }else if(n == 2){
-                if(relativeLoc.getEast() != null){
-                textArea.append("Moving East from " + relativeLoc.getName() + newline);
-                player.setLocation(relativeLoc.getEast());
-                }
-            }else if(n == 3){
-                if(relativeLoc.getWest() != null){
-                textArea.append("Moving West from " + relativeLoc.getName() + newline);
-                player.setLocation(relativeLoc.getWest());
-                }
-            }else if(n == JOptionPane.CLOSED_OPTION){
-                textArea.append("Movement Canceled" + newline);
+            } else if (source == mapButton) {
+                map = new MapGUI();
+                map.mapFrame();
             }
-        }else if(source == observeButton){
-            textArea.append(relativeLoc.getDesc() + newline);
-            textArea.append("Exits: " + relativeLoc.getExits() + newline);
-        }else if(source == abortButton){
-            int n = JOptionPane.showConfirmDialog(frame, "Quit?");
-            if(n == JOptionPane.YES_OPTION){
+        }else if(event.getSource() instanceof JMenuItem){
+            JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
+            if(sourceMenu == quit){
                 System.exit(0);
+            }else if(sourceMenu == gameHelp){
+                JOptionPane.showMessageDialog(frame, "FAQs and Help will go here. Feel free to populate this menu" +
+                        "with more stuff and a scroll bar and buttons.");
             }
-        }else if(source == mapButton){
-            map = new MapGUI();
-            map.mapFrame();
-        }
-
-        JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
-        if(sourceMenu == quit){
-            System.exit(0);
-        }else if(sourceMenu == gameHelp){
-            JOptionPane.showMessageDialog(frame, "FAQs and Help will go here. Feel free to populate this menu" +
-                    "with more stuff and a scroll bar and buttons.");
         }
     }
 
@@ -253,6 +256,7 @@ public class MainGame extends JPanel implements ActionListener {
         menuListener = new MainGame(1);
         quit.addActionListener(menuListener);
         gameHelp.addActionListener(menuListener);
+
     }
 
     public static void main(String[] args) {
