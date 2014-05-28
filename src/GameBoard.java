@@ -19,10 +19,11 @@ public class GameBoard {
         player = new Actor(name);
 
         //Centauri
-        Room Centauri = new Room(this);
+        Room Centauri = new Room(3,0,this);
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
+        spawnLinearDungeon();
 
         //Dremol
         Room Dremol = new Room(0,-1, this);
@@ -97,7 +98,7 @@ public class GameBoard {
                 "show up from time to time.");
 
         roomList.add(Centauri);
-        roomList.add(Dremol);
+        /*roomList.add(Dremol);
         roomList.add(Vionla);
         roomList.add(Caljack);
         roomList.add(Tythis);
@@ -110,10 +111,11 @@ public class GameBoard {
         roomList.add(Eweworth);
         roomList.add(Astoudown);
         roomList.add(Helgrove);
-        roomList.add(Floupond);
+        roomList.add(Floupond);*/
 
         for(Room r : roomList){
             System.out.println(r.getName() + " " + r.getCoordinates());
+            r.connectRooms();
         }
     }
     
@@ -153,5 +155,23 @@ public class GameBoard {
     
     public String getName(){
         return worldName;
+    }
+    
+    public void spawnLinearDungeon(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("How many spaces?");
+        int x = input.nextInt();
+        for(int i = 0; i < x; i++){
+            Room spawnRoom = new Room(3, i+1, this);
+            spawnRoom.setName("Tile" + (i+1));
+            spawnRoom.setDesc("notation " + i);
+            spawnRoom.setAdd();
+            roomList.add(spawnRoom);
+            
+        }
+    }
+    
+    public void addRoom(Room r){
+        roomList.add(r);
     }
 }
