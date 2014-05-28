@@ -126,5 +126,15 @@ public class Room {
         }
         }
     }
-}
     
+    public void setAdd(){
+        int z= 2;
+        for(int i = 0; i < x; i++){
+            Room setRoom = new Room(z, this.y, parentBoard);
+            setRoom.setName("Derivative" + (i+1));
+            setRoom.setDesc("notation " + i);
+            z+=2;
+            parentBoard.addRoom(setRoom);
+        }
+    }
+}
