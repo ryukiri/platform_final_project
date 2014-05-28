@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class PictureShow
 {
-    public static void main( String [] args )
+    public static void mapFrame()
     {
         JFrame frame = new JFrame( "MAP ");
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
