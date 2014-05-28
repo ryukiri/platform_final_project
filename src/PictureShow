@@ -52,6 +52,7 @@ public class PictureShow
                 
                 
                 /*
+                // randomly prints out the string "Monster" or "Treasure"
                 int sRow = 0;
                 int sCol = 0;
                 for( int r = 0; r < map.length; r++ )
@@ -67,7 +68,7 @@ public class PictureShow
                             g2.drawString("Treasure", sRow+1, sCol+20);
                     }
                 }
-                        */
+                */
  
                 g2.setColor( Color.WHITE );
                 g2.fillRect( 0, 0, 50, 50);
