@@ -89,9 +89,6 @@ public class MainGame extends JPanel implements ActionListener {
         Object source = event.getSource();
         Actor player = mainBoard.getPlayer();
         Room relativeLoc = player.getLocation();
-        for(Room r : mainBoard.getList()){
-            r.connectRooms();
-        }
         if(event.getSource() instanceof JButton) {
 
             if (source == moveButton) {
