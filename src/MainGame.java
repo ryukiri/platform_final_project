@@ -40,7 +40,7 @@ public class MainGame extends JPanel implements ActionListener {
     private final static String newline = "\n";
     private final static JFrame frame = new JFrame("Server");
     private static GameBoard mainBoard;
-    private static MapGUI map;
+    private static PictureShow map;
     private static ActionListener buttonListener;
     private static ActionListener menuListener;
 
@@ -142,7 +142,7 @@ public class MainGame extends JPanel implements ActionListener {
                     System.exit(0);
                 }
             } else if (source == mapButton) {
-                map = new MapGUI();
+                map = new PictureShow();
                 map.mapFrame();
             }
         }else if(event.getSource() instanceof JMenuItem){
