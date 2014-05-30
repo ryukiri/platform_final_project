@@ -19,11 +19,11 @@ public class GameBoard {
         player = new Actor(name);
 
         //Centauri
-        Room Centauri = new Room(3,0,this);
+        Room Centauri = new Room(10,5,this);
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
-        spawnRandomDungeon();
+        spawnRandomDungeon(Centauri);
 
         //Dremol
         Room Dremol = new Room(0,-1, this);
@@ -121,19 +121,14 @@ public class GameBoard {
     
     public Room getLocation(int productX, int productY, String name){
         for(Room stack : roomList){
-            if(stack.getName() != name){
-                System.out.println("scan vision");
-                System.out.println(stack.getName() + " " + stack.getCoordinates());
+            if(!stack.getName().equals(name)){
                 if(stack != null)
-                    System.out.println("" + stack.getX() + " == " + productX + " && " + stack.getY() + " == " + productY);
                     if(stack.getX() == productX && stack.getY() == productY){
-                        System.out.println(stack.getName()+ " returned ");
                         return stack;
                     }
                     
             }
         }
-        System.out.println("failed to find location");
         return null;
     }
 
@@ -157,12 +152,12 @@ public class GameBoard {
         return worldName;
     }
     
-    public void spawnLinearDungeon(){
+    public void spawnLinearDungeon(Room r){
         Scanner input = new Scanner(System.in);
         System.out.println("How many spaces?");
         int x = input.nextInt();
         for(int i = 0; i < x; i++){
-            Room spawnRoom = new Room(3, i+1, this);
+            Room spawnRoom = new Room(r.getX(), r.getY()+i+1, this, (i+1) + "R");
             spawnRoom.setName("Tile" + (i+1));
             spawnRoom.setDesc("notation " + i);
             spawnRoom.setAdd();
@@ -171,22 +166,22 @@ public class GameBoard {
         }
     }
     
-    public void spawnRandomDungeon(){
+  public void spawnRandomDungeon(Room r){
         int tempRan;
-        int x = 3;
-        int y = 0;
+        int x = r.getX();
+        int y = r.getY();
 
         Scanner input = new Scanner(System.in);
         System.out.println("How many spaces?");
         int z = input.nextInt();
         for(int i = 0; i < z; i++){
-            Room spawnRoom = new Room(x, i+1, this);
+            Room spawnRoom = new Room(x, i+1+y, this);
             spawnRoom.setName("Tile" + (i+1));
             spawnRoom.setDesc("notation " + i);
-            Room rightRoom = new Room(x+1, i+1, this);
+            Room rightRoom = new Room(x+1, i+1+y, this);
             rightRoom.setName("Right" + i);
             rightRoom.setDesc("RDesc" + i);
-            Room leftRoom = new Room(x-1, i+1, this);
+            Room leftRoom = new Room(x-1, i+1+y, this);
             leftRoom.setName("Left" + i);
             leftRoom.setDesc("LDesc" + i);
             //spawnRoom.setAdd();
@@ -200,8 +195,7 @@ public class GameBoard {
             }else
                 x--;
         }
-    }
-    
+    } 
     public void addRoom(Room r){
         roomList.add(r);
     }
