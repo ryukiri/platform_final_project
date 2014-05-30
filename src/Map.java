@@ -6,6 +6,11 @@ import java.awt.geom.Rectangle2D;
  * Background frameworks for the map.
  */
 public class Map extends JComponent {
+    private static GameBoard board;
+    
+    public Map (GameBoard g){
+        board = g;
+    }
     public void paintComponent(Graphics g){
         // Recover Graphics g
         Graphics2D g2 = (Graphics2D) g;
@@ -30,12 +35,14 @@ public class Map extends JComponent {
             for(int c = 0; c < map[0].length; c++ ){
                 sRow = r* 25;
                 sColumn = c*25;
-                int random = (int)(Math.random()*26);
                 //System.out.print(random);
-                if( random%26 == 0 )
-                    g2.drawString("A", sRow+10, sColumn+20);
-                else if (random%26 == 1)
-                    g2.drawString("B", sRow+10, sColumn+20);
+                Room testRoom = board.getLocation(r,c, "0");
+                if( testRoom != null){
+                    if(board.getPlayer().getLocation().equals(testRoom))
+                        g2.drawString("P", sRow+10, sColumn+20);
+                    else
+                       g2.drawString("0", sRow+10, sColumn+20);
+                }
             }
         }
     }
