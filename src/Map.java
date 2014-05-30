@@ -33,13 +33,16 @@ public class Map extends JComponent {
         int sColumn = 0;
         for( int r = 0; r < map.length; r++ ){
             for(int c = 0; c < map[0].length; c++ ){
-                sRow = r* 25;
-                sColumn = c*25;
+                sRow = r * 25;
+                sColumn = (map[0].length- c - 1)*25;
                 //System.out.print(random);
                 Room testRoom = board.getLocation(r,c, "0");
                 if( testRoom != null){
                     if(board.getPlayer().getLocation().equals(testRoom))
                         g2.drawString("P", sRow+10, sColumn+20);
+                    else if(testRoom.hasExplored()){
+                        g2.drawString(testRoom.getSymbol(), sRow+6, sColumn+20);
+                    }
                     else
                        g2.drawString("0", sRow+10, sColumn+20);
                 }
