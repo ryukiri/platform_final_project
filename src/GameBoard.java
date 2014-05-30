@@ -23,7 +23,7 @@ public class GameBoard {
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
-        spawnLinearDungeon();
+        spawnRandomDungeon();
 
         //Dremol
         Room Dremol = new Room(0,-1, this);
@@ -168,6 +168,37 @@ public class GameBoard {
             spawnRoom.setAdd();
             roomList.add(spawnRoom);
             
+        }
+    }
+    
+    public void spawnRandomDungeon(){
+        int tempRan;
+        int x = 3;
+        int y = 0;
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("How many spaces?");
+        int z = input.nextInt();
+        for(int i = 0; i < z; i++){
+            Room spawnRoom = new Room(x, i+1, this);
+            spawnRoom.setName("Tile" + (i+1));
+            spawnRoom.setDesc("notation " + i);
+            Room rightRoom = new Room(x+1, i+1, this);
+            rightRoom.setName("Right" + i);
+            rightRoom.setDesc("RDesc" + i);
+            Room leftRoom = new Room(x-1, i+1, this);
+            leftRoom.setName("Left" + i);
+            leftRoom.setDesc("LDesc" + i);
+            //spawnRoom.setAdd();
+            roomList.add(spawnRoom);
+            roomList.add(rightRoom);
+            roomList.add(leftRoom);
+
+            int randomNum = (int) ((Math.random()*2)+1);
+            if(randomNum == 1){
+                x++;
+            }else
+                x--;
         }
     }
     
