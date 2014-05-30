@@ -40,7 +40,7 @@ public class MainGame extends JPanel implements ActionListener {
     private final static String newline = "\n";
     private final static JFrame frame = new JFrame("Server");
     private static GameBoard mainBoard;
-    private static PictureShow map;
+    private static MapGUI map;
     private static ActionListener buttonListener;
     private static ActionListener menuListener;
 
@@ -89,6 +89,7 @@ public class MainGame extends JPanel implements ActionListener {
         Object source = event.getSource();
         Actor player = mainBoard.getPlayer();
         Room relativeLoc = player.getLocation();
+        relativeLoc.explored();
         if(event.getSource() instanceof JButton) {
 
             if (source == moveButton) {
@@ -142,7 +143,7 @@ public class MainGame extends JPanel implements ActionListener {
                     System.exit(0);
                 }
             } else if (source == mapButton) {
-                map = new PictureShow();
+                map = new MapGUI(mainBoard);
                 map.mapFrame();
             }
         }else if(event.getSource() instanceof JMenuItem){
@@ -222,7 +223,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(moveButton);
         buttonPanel.add(observeButton);
         buttonPanel.add(abortButton);
-        //buttonPanel.add(mapButton);
+        buttonPanel.add(mapButton);
 
         //Add stuff to main panel
         mainPanel.add(textPanel);
