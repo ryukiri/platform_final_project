@@ -18,19 +18,43 @@ public class Room {
     private String desc;
     private String name;
     private GameBoard parentBoard;
+    private boolean explored = false;
+    private String symbol;
+    
+    public Room(int newX, int newY, GameBoard g, String newSymbol){
+        x = newX;
+        y = newY;
+        parentBoard = g;
+        symbol = newSymbol;       
+    }
     
     public Room(int newX, int newY, GameBoard g){
         x = newX;
         y = newY;
         parentBoard = g;
-        
+        symbol = "X";
     }
+            
     
-    public Room(GameBoard g){
+    public Room(GameBoard g, String newSymbol){
         x = 0;
         y = 0;
         parentBoard = g;
+        symbol = newSymbol;
     }
+    
+    public void explored(){
+        explored = true;
+    }
+    
+    public boolean hasExplored(){
+        return explored;
+    }
+    
+    public String getSymbol(){
+        return symbol;
+    }
+    
     
     public Room getNorth(){
         return north;
@@ -50,8 +74,6 @@ public class Room {
     
     public void connectRooms(){
         GameBoard g = parentBoard;
-        System.out.println("NAME: " + g.getName());
-        System.out.println("northcheck");
         Room tempNorth = g.getLocation(x, y+1, name);
         if(tempNorth != null){
             north = tempNorth;
@@ -100,13 +122,13 @@ public class Room {
     public String getExits(){
         String x = "";
         if(north != null)
-            x += " North: " + north.getName();
+            x += " North: " + north.getName() + " |";
         if(east != null)
-            x += " East: " + east.getName();
+            x += " East: " + east.getName() +" |";
         if(south != null)
-            x += " South: " + south.getName();
+            x += " South: " + south.getName() +" |";
         if(west != null)
-            x += " West: " + west.getName();
+            x += " West: " + west.getName() + " |";
         if(x.equals(""))
             return "There are no exits";
         return x;
@@ -129,9 +151,9 @@ public class Room {
     
     public void setAdd(){
         int z= 2;
-        for(int i = 0; i < x; i++){
+        for(int i = 1; i <= 2; i++){
             Room setRoom = new Room(z, this.y, parentBoard);
-            setRoom.setName("Derivative" + (i+1));
+            setRoom.setName("Derivative" + (i));
             setRoom.setDesc("notation " + i);
             z+=2;
             parentBoard.addRoom(setRoom);
