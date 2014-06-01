@@ -9,6 +9,7 @@ public class GameBoard {
     private Actor player;
     private ArrayList <Room> roomList;
     private String worldName;
+    private MainGame mainGame;
 
 
     public GameBoard(){
@@ -24,9 +25,9 @@ public class GameBoard {
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
         spawnRandomDungeon(Centauri);
-        Item qq = new Item(Centauri);
+        Item qq = new Gear(Centauri, "mainhand");
         qq.setName("Super Blunderbuss of Death");
-        qq = new Item(Centauri);
+        qq = new Gear(player, "mainhand");
         qq.setName("Blasting Rifle");
 
         //Dremol
@@ -198,5 +199,13 @@ public class GameBoard {
     } 
     public void addRoom(Room r){
         roomList.add(r);
+    }
+    
+    public void setParentGUI(MainGame m){
+        mainGame = m;
+    }
+    
+    public MainGame getMainGame(){
+        return mainGame;
     }
 }
