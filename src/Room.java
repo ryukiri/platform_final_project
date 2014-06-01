@@ -133,7 +133,7 @@ public class Room {
         }
         if(randomNum == 18){
             name = "Jail";
-            desc = "Prisoners are kept here.";
+            desc = "Prisoners were once kept here.";
             symbol = "JIL";
             
         }
