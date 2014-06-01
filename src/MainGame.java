@@ -5,12 +5,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 
 public class MainGame extends JPanel implements ActionListener {
     private static JButton moveButton;
     private static JButton observeButton;
     private static JButton abortButton;
     private static JButton mapButton;
+    private static JButton inventoryButton;
     private static JLabel playerName;
     private static JLabel playerHealth;
     private static JLabel playerStamina;
@@ -46,7 +48,7 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-        textArea = new JTextArea(40, 50);
+        textArea = new JTextArea(70, 90);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
@@ -145,6 +147,11 @@ public class MainGame extends JPanel implements ActionListener {
             } else if (source == mapButton) {
                 map = new MapGUI(mainBoard);
                 map.mapFrame();
+            } else if (source == inventoryButton){
+                ArrayList <Item> items = player.getContents();
+                for(Item i : items){
+                    textArea.append(i.getName() + newline);
+                }
             }
         }else if(event.getSource() instanceof JMenuItem){
             JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
@@ -181,6 +188,7 @@ public class MainGame extends JPanel implements ActionListener {
         observeButton = new JButton("Observe");
         abortButton = new JButton("Abort");
         mapButton = new JButton("Map");
+        inventoryButton = new JButton("Inventory");
 
         //Add button listeners
         buttonListener = new MainGame(1);
@@ -199,7 +207,7 @@ public class MainGame extends JPanel implements ActionListener {
         mainPanel = new JPanel();
 
         //Button Panel Grid Layout
-        buttonPanel.setLayout(new GridLayout(19,1));
+        buttonPanel.setLayout(new GridLayout(20,1));
         statPanel.setLayout(new GridLayout(13,1));
 
         //Add contents to panel
@@ -224,6 +232,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(observeButton);
         buttonPanel.add(abortButton);
         buttonPanel.add(mapButton);
+        buttonPanel.add(inventoryButton);
 
         //Add stuff to main panel
         mainPanel.add(textPanel);
