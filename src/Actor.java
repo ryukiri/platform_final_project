@@ -30,6 +30,7 @@ public class Actor {
     //other variables
     private Room location;
     private ArrayList <Item> contents;
+    private ArrayList <Item> self;
 
     public Actor(){
         initStats();

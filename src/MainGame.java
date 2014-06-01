@@ -10,6 +10,7 @@ import java.util.*;
 public class MainGame extends JPanel implements ActionListener {
     private static JButton moveButton;
     private static JButton observeButton;
+    private static JButton itemPickUpButton;
     private static JButton abortButton;
     private static JButton mapButton;
     private static JButton inventoryButton;
@@ -48,7 +49,7 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-        textArea = new JTextArea(70, 90);
+        textArea = new JTextArea(40, 70);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
@@ -160,6 +161,16 @@ public class MainGame extends JPanel implements ActionListener {
                 for(Item i : items){
                     textArea.append(i.getName() + newline);
                 }
+            } else if(source == itemPickUpButton){
+                //Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
+                String n = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
+                int convertedNum = Integer.parseInt(n);
+                if(convertedNum >= player.getLocation().getContents().size()){
+                    textArea.append(newline + "That item does not exist." + newline);
+                }else {
+                    textArea.append(newline + "You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
+                    //player.addSelf(player.getLocation().getContents().get(convertedNum));
+                }
             }
         }else if(event.getSource() instanceof JMenuItem){
             JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
@@ -194,6 +205,7 @@ public class MainGame extends JPanel implements ActionListener {
         //Buttons
         moveButton = new JButton("Move");
         observeButton = new JButton("Observe");
+        itemPickUpButton = new JButton("Pick up Item");
         abortButton = new JButton("Abort");
         mapButton = new JButton("Map");
         inventoryButton = new JButton("Inventory");
@@ -202,6 +214,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonListener = new MainGame(1);
         moveButton.addActionListener(buttonListener);
         observeButton.addActionListener(buttonListener);
+        itemPickUpButton.addActionListener(buttonListener);
         abortButton.addActionListener(buttonListener);
         mapButton.addActionListener(buttonListener);
 
@@ -215,7 +228,7 @@ public class MainGame extends JPanel implements ActionListener {
         mainPanel = new JPanel();
 
         //Button Panel Grid Layout
-        buttonPanel.setLayout(new GridLayout(20,1));
+        buttonPanel.setLayout(new GridLayout(21,1));
         statPanel.setLayout(new GridLayout(13,1));
 
         //Add contents to panel
@@ -238,6 +251,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(space);
         buttonPanel.add(moveButton);
         buttonPanel.add(observeButton);
+        buttonPanel.add(itemPickUpButton);
         buttonPanel.add(abortButton);
         buttonPanel.add(mapButton);
         buttonPanel.add(inventoryButton);
