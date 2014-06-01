@@ -24,10 +24,6 @@ public class GameBoard {
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
         spawnRandomDungeon(Centauri);
-        Item qq = new Item(Centauri);
-        qq.setName("Super Blunderbuss of Death");
-        qq = new Item(Centauri);
-        qq.setName("Blasting Rifle");
 
         //Dremol
         Room Dremol = new Room(0,-1, this);
@@ -180,9 +176,9 @@ public class GameBoard {
         System.out.println("How many spaces?");
         int z = input.nextInt();
         for(int i = 0; i < z; i++){
-            Room spawnRoom = new Room(x, i+1+y, this);
-            Room rightRoom = new Room(x+1, i+1+y, this);
-            Room leftRoom = new Room(x-1, i+1+y, this);
+            Room spawnRoom = new Room(x, i+1 + y, this);
+            Room rightRoom = new Room(x+1, i+1 + y, this);
+            Room leftRoom = new Room(x-1, i+1 + y, this);
             //spawnRoom.setAdd();
             roomList.add(spawnRoom);
             roomList.add(rightRoom);
