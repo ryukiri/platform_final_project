@@ -51,4 +51,9 @@ public class Item {
         return name;
     }
     
+    public void setName(String newName){
+        name = newName;
+        
+    }
+    
 }
