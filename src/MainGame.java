@@ -139,6 +139,14 @@ public class MainGame extends JPanel implements ActionListener {
             } else if (source == observeButton) {
                 textArea.append(relativeLoc.getDesc() + newline);
                 textArea.append("Exits:   " + relativeLoc.getExits() + newline);
+                if(player.getLocation().getContents()!= null){
+                    textArea.append("Items availible to be picked up:" + newline);
+                    for(Item i: player.getLocation().getContents()){
+                        textArea.append(i.getName() + ", ");
+                    }
+                }
+                else
+                    System.out.println("Failed.");
             } else if (source == abortButton) {
                 int n = JOptionPane.showConfirmDialog(frame, "Quit?");
                 if (n == JOptionPane.YES_OPTION) {
