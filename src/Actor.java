@@ -30,7 +30,6 @@ public class Actor {
     //other variables
     private Room location;
     private ArrayList <Item> contents;
-    private ArrayList <Item> self;
 
     public Actor(){
         initStats();
@@ -129,5 +128,13 @@ public class Actor {
     
     public ArrayList <Item> getContents(){
         return contents;
+    }
+
+    public void removeContents(Item x){
+        contents.remove(x);
+    }
+
+    public void removeContents(int x){
+        contents.remove(x);
     }
 }

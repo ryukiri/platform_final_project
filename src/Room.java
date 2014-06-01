@@ -281,7 +281,15 @@ public class Room {
             return true;
         return false;
     }
-    
+
+    public void removeContents(Item x){
+        contents.remove(x);
+    }
+
+    public void removeContents(int x){
+        contents.remove(x);
+    }
+
     public ArrayList <Item> getContents(){
         return contents;
     }

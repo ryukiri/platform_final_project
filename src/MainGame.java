@@ -169,7 +169,6 @@ public class MainGame extends JPanel implements ActionListener {
                     textArea.append(newline + "That item does not exist." + newline);
                 }else {
                     textArea.append(newline + "You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
-                    //player.addSelf(player.getLocation().getContents().get(convertedNum));
                 }
             }
         }else if(event.getSource() instanceof JMenuItem){
