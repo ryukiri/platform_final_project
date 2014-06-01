@@ -238,13 +238,13 @@ public class Room {
     public String getExits(){
         String x = "";
         if(north != null)
-            x += " North: " + north.getName() + "   |   ";
+            x += " North: " + north.getName() + "    |    ";
         if(east != null)
-            x += " East: " + east.getName() +"   |   ";
+            x += " East: " + east.getName() +"    |    ";
         if(south != null)
-            x += " South: " + south.getName() +"   |   ";
+            x += " South: " + south.getName() +"    |    ";
         if(west != null)
-            x += " West: " + west.getName() + "   |   ";
+            x += " West: " + west.getName() + "    |    ";
         if(x.equals(""))
             return "There are no exits";
         return x;
