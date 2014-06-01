@@ -44,7 +44,13 @@ public class Map extends JComponent {
                         g2.drawString(testRoom.getSymbol(), sRow + 2, sColumn - 10);
                     }
                     else
-                       g2.drawString("0", sRow + 12, sColumn - 10);
+                    {
+                        g2.fillRect(sRow, sColumn-30, 30, 30);
+                        g2.setColor(Color.BLUE);
+                        g2.drawRect(sRow, sColumn-30, 30, 30);
+                        g2.setColor(Color.BLACK);
+                        //g2.drawString("0", sRow + 12, sColumn - 10);
+                    }
                 }
             }
         }
