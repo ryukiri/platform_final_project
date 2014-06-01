@@ -2,6 +2,7 @@
  * Contains all the necessary info for actors and players.
  *
  */
+import java.util.*;
 public class Actor {
     private String actorName;
     private Stat health;
@@ -28,6 +29,7 @@ public class Actor {
 
     //other variables
     private Room location;
+    private ArrayList <Item> contents;
 
     public Actor(){
         initStats();
@@ -57,6 +59,7 @@ public class Actor {
         atkVal = new Stat("Attack Value", 0, 0, "range");
         defVal = new Stat("Defense Value",0,"skill");
         weaponVal = new Stat("Weapon Value", 0, 0, "range");
+        contents = new ArrayList <Item> ();
     }
     
     Room getLocation(){
@@ -121,5 +124,9 @@ public class Actor {
 
     public String weaponVal(){
         return "Weapon Value: " + weaponVal.getDisplay();
+    }
+    
+    public ArrayList <Item> getContents(){
+        return contents;
     }
 }
