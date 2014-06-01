@@ -162,8 +162,14 @@ public class MainGame extends JPanel implements ActionListener {
                 map.mapFrame();
             } else if (source == inventoryButton){
                 ArrayList <Item> items = player.getContents();
+                int iter=0;
+                textArea.append("Items in your inventory" + newline);
                 for(Item i : items){
+                    iter++;
                     textArea.append(i.getName() + newline);
+                }
+                if(iter == 0){
+                    textArea.append("There are no items in your inventory."+newline);
                 }
             } else if(source == itemPickUpButton){
                 //Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
@@ -173,6 +179,7 @@ public class MainGame extends JPanel implements ActionListener {
                     textArea.append(newline + "That item does not exist." + newline);
                 }else {
                     textArea.append(newline + "You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
+                    player.getLocation().getContents().get(convertedNum).Move(player);
                 }
             }
         }else if(event.getSource() instanceof JMenuItem){
@@ -217,6 +224,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonListener = new MainGame(1);
         moveButton.addActionListener(buttonListener);
         observeButton.addActionListener(buttonListener);
+        inventoryButton.addActionListener(buttonListener);
         itemPickUpButton.addActionListener(buttonListener);
         abortButton.addActionListener(buttonListener);
         mapButton.addActionListener(buttonListener);
