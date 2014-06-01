@@ -10,10 +10,10 @@ import java.util.*;
 public class MainGame extends JPanel implements ActionListener {
     private static JButton moveButton;
     private static JButton observeButton;
-    private static JButton itemPickUpButton;
     private static JButton abortButton;
     private static JButton mapButton;
     private static JButton inventoryButton;
+    private static JButton pickUpButton;
     private static JLabel playerName;
     private static JLabel playerHealth;
     private static JLabel playerStamina;
@@ -49,7 +49,7 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-        textArea = new JTextArea(40, 70);
+        textArea = new JTextArea(70, 90);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
@@ -82,10 +82,16 @@ public class MainGame extends JPanel implements ActionListener {
         playerDefVal = new JLabel(mainBoard.getPlayer().defVal());
         playerWeaponVal = new JLabel(mainBoard.getPlayer().weaponVal());
         textArea.append("Use the observe button to look around" + newline);
+        mainBoard.setParentGUI(this);
+        
     }
 
     public MainGame(int x){
 
+    }
+    
+    public JTextArea getTextArea(){
+        return textArea;
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -115,25 +121,21 @@ public class MainGame extends JPanel implements ActionListener {
                         options[0]);
 
                 if (n == 0) {
-                    map.revalid();
                     if (relativeLoc.getNorth() != null) {
                         textArea.append("Moving North from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getNorth());
                     }
                 } else if (n == 1) {
-                    map.revalid();
                     if (relativeLoc.getSouth() != null) {
                         textArea.append("Moving South from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getSouth());
                     }
                 } else if (n == 2) {
-                    map.revalid();
                     if (relativeLoc.getEast() != null) {
                         textArea.append("Moving East from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getEast());
                     }
                 } else if (n == 3) {
-                    map.revalid();
                     if (relativeLoc.getWest() != null) {
                         textArea.append("Moving West from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getWest());
@@ -143,7 +145,7 @@ public class MainGame extends JPanel implements ActionListener {
                 }
             } else if (source == observeButton) {
                 textArea.append(relativeLoc.getDesc() + newline);
-                textArea.append("Exits:    " + relativeLoc.getExits() + newline);
+                textArea.append("Exits:   " + relativeLoc.getExits() + newline);
                 if(player.getLocation().getContents()!= null){
                     textArea.append("Items availible to be picked up:" + newline);
                     for(Item i: player.getLocation().getContents()){
@@ -162,25 +164,26 @@ public class MainGame extends JPanel implements ActionListener {
                 map.mapFrame();
             } else if (source == inventoryButton){
                 ArrayList <Item> items = player.getContents();
-                int iter=0;
-                textArea.append("Items in your inventory" + newline);
+                int iter = 0;
+                textArea.append("Items in your inventory:" + newline);
                 for(Item i : items){
                     iter++;
                     textArea.append(i.getName() + newline);
                 }
                 if(iter == 0){
-                    textArea.append("There are no items in your inventory."+newline);
+                    textArea.append("There are no items in your inventory.");
                 }
-            } else if(source == itemPickUpButton){
-                //Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
+            } else if(source == pickUpButton){
                 String n = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
                 int convertedNum = Integer.parseInt(n);
-                if(convertedNum >= player.getLocation().getContents().size()){
+                if(convertedNum>= player.getLocation().getContents().size()){
                     textArea.append(newline + "That item does not exist." + newline);
-                }else {
+                }
+                else{
                     textArea.append(newline + "You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
                     player.getLocation().getContents().get(convertedNum).Move(player);
                 }
+                            
             }
         }else if(event.getSource() instanceof JMenuItem){
             JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
@@ -215,20 +218,19 @@ public class MainGame extends JPanel implements ActionListener {
         //Buttons
         moveButton = new JButton("Move");
         observeButton = new JButton("Observe");
-        itemPickUpButton = new JButton("Pick up Item");
         abortButton = new JButton("Abort");
         mapButton = new JButton("Map");
         inventoryButton = new JButton("Inventory");
-
+        pickUpButton = new JButton("Pick Up");
         //Add button listeners
         buttonListener = new MainGame(1);
         moveButton.addActionListener(buttonListener);
         observeButton.addActionListener(buttonListener);
-        inventoryButton.addActionListener(buttonListener);
-        itemPickUpButton.addActionListener(buttonListener);
         abortButton.addActionListener(buttonListener);
         mapButton.addActionListener(buttonListener);
-
+        inventoryButton.addActionListener(buttonListener);
+        pickUpButton.addActionListener(buttonListener);
+        
     }
 
     private static void panels(){
@@ -262,10 +264,10 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(space);
         buttonPanel.add(moveButton);
         buttonPanel.add(observeButton);
-        buttonPanel.add(itemPickUpButton);
         buttonPanel.add(abortButton);
         buttonPanel.add(mapButton);
         buttonPanel.add(inventoryButton);
+        buttonPanel.add(pickUpButton);
 
         //Add stuff to main panel
         mainPanel.add(textPanel);
