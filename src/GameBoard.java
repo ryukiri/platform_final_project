@@ -19,11 +19,15 @@ public class GameBoard {
         player = new Actor(name);
 
         //Centauri
-        Room Centauri = new Room(10,5,this);
+        Room Centauri = new Room(10,5,this, "CEN");
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
         spawnRandomDungeon(Centauri);
+        Item qq = new Item(Centauri);
+        qq.setName("Super Blunderbuss of Death");
+        qq = new Item(Centauri);
+        qq.setName("Blasting Rifle");
 
         //Dremol
         Room Dremol = new Room(0,-1, this);
@@ -116,6 +120,7 @@ public class GameBoard {
         for(Room r : roomList){
             System.out.println(r.getName() + " " + r.getCoordinates());
             r.connectRooms();
+            System.out.println(r.getExits());
         }
     }
     
@@ -176,24 +181,19 @@ public class GameBoard {
         int z = input.nextInt();
         for(int i = 0; i < z; i++){
             Room spawnRoom = new Room(x, i+1+y, this);
-            spawnRoom.setName("Tile" + (i+1));
-            spawnRoom.setDesc("notation " + i);
             Room rightRoom = new Room(x+1, i+1+y, this);
-            rightRoom.setName("Right" + i);
-            rightRoom.setDesc("RDesc" + i);
             Room leftRoom = new Room(x-1, i+1+y, this);
-            leftRoom.setName("Left" + i);
-            leftRoom.setDesc("LDesc" + i);
             //spawnRoom.setAdd();
             roomList.add(spawnRoom);
             roomList.add(rightRoom);
             roomList.add(leftRoom);
 
             int randomNum = (int) ((Math.random()*2)+1);
-            if(randomNum == 1){
-                x++;
+            int pick = (int) ((Math.random()*2) + 1);
+            if(pick == 1){
+                x+= randomNum;
             }else
-                x--;
+                x -= randomNum;
         }
     } 
     public void addRoom(Room r){
