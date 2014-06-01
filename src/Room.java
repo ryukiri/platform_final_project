@@ -33,7 +33,7 @@ public class Room {
         parentBoard = g;
         symbol = "X";
         contents = new ArrayList <Item> ();
-        int randomNum = (int) ((Math.random()*9)+1);
+        int randomNum = (int) ((Math.random()*20)+1);
         if(randomNum == 1){
             name = "Medical Bay";
             desc = "A medical bay stands before you. Maybe there are some medical kits to be had here.";
@@ -54,7 +54,7 @@ public class Room {
         if(randomNum == 4){
             name = "Storage Room";
             desc = "A set of canisters, capsules, and boxes lie about in an expansive storage room. Time to get to work on looking for useful items.";
-            symbol = "SOR";           
+            symbol = "STR";           
         }
         if(randomNum == 5){
             name = "Repairs and Logistics";
@@ -82,6 +82,72 @@ public class Room {
             name = "Waste Management Facility";
             desc = "All of the garbage and refuse leaves through ducts that fire at stars as a natural vaporization method.";
             symbol = "WMF";
+        }
+        if(randomNum == 10){
+            name = "Weapon Storage Room";
+            desc = "All the weapons are stored here.";
+            symbol = "WSR";
+            
+        }
+        if(randomNum == 11){
+            name = "Dinning Room";
+            desc = "It is an empty dining room with just the tables.";
+            symbol = "DNR";
+            
+        }
+        if(randomNum == 12){
+            name = "Kitchen";
+            desc = "Chefs made food here, there may still be some foods left.";
+            symbol = "KCH";
+            
+        }
+        if(randomNum == 13){
+            name = "Gym";
+            desc = "It's a gym, maybe you could workout right now.";
+            symbol = "GYM";
+            
+        }
+        if(randomNum == 14){
+            name = "Shower Room";
+            desc = "You should clean yourself right now; take a shower.";
+            symbol = "SHW";
+            
+        }
+        if(randomNum == 15){
+            name = "Main Deck";
+            desc = "Captain of this ship commended his ship from here.";
+            symbol = "MDC";
+            
+        }
+        if(randomNum == 16){
+            name = "Captain Room";
+            desc = "It's a large room which captain stayed in, there are a lot of beers.";
+            symbol = "CPT";
+            
+        }
+        if(randomNum == 17){
+            name = "Co-Captain Room";
+            desc = "It's a messy room that looks empty, feels like a monster lives here.";
+            symbol = "CCR";
+            
+        }
+        if(randomNum == 18){
+            name = "Jail";
+            desc = "Prisoners are kept here.";
+            symbol = "JIL";
+            
+        }
+        if(randomNum == 19){
+            name = "Cantina Bay";
+            desc = "It's a bar, everything is broken, a juke box is still playing.";
+            symbol = "CAB";
+            
+        }
+        if(randomNum == 20){
+            name = "Emergency Space Shuttles";
+            desc = "All the emergency space shuttles are gone.";
+            symbol = "ESS";
+            
         }
     }
             
@@ -172,13 +238,13 @@ public class Room {
     public String getExits(){
         String x = "";
         if(north != null)
-            x += " North: " + north.getName() + " |";
+            x += " North: " + north.getName() + "   |   ";
         if(east != null)
-            x += " East: " + east.getName() +" |";
+            x += " East: " + east.getName() +"   |   ";
         if(south != null)
-            x += " South: " + south.getName() +" |";
+            x += " South: " + south.getName() +"   |   ";
         if(west != null)
-            x += " West: " + west.getName() + " |";
+            x += " West: " + west.getName() + "   |   ";
         if(x.equals(""))
             return "There are no exits";
         return x;
