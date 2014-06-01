@@ -19,10 +19,10 @@ public class Map extends JComponent {
         int column = 0, row;
         for( int r = 0; r < map.length; r++ ){
             for( int c = 0; c < map[0].length; c++ ){
-                row = r*25;
-                column = c*25;
+                row = r*30;
+                column = c*30;
                 g2.setColor( Color.BLACK);
-                Rectangle2D.Double rectangle1 = new Rectangle.Double( row, column, 25, 25 );
+                Rectangle2D.Double rectangle1 = new Rectangle.Double( row, column, 30, 30 );
                 g2.draw( rectangle1 );
 
                 //g2.drawString( "A", (int)(Math.random()+1)*row + 5, (int)(Math.random()+1)*column -5);
@@ -33,18 +33,18 @@ public class Map extends JComponent {
         int sColumn = 0;
         for( int r = 0; r < map.length; r++ ){
             for(int c = 0; c < map[0].length; c++ ){
-                sRow = r * 25;
-                sColumn = (map[0].length- c - 1)*25;
+                sRow = r * 30;
+                sColumn = (map[0].length- c - 1)*30;
                 //System.out.print(random);
                 Room testRoom = board.getLocation(r,c, "0");
                 if( testRoom != null){
                     if(board.getPlayer().getLocation().equals(testRoom))
-                        g2.drawString("P", sRow+10, sColumn+20);
+                        g2.drawString("P", sRow + 12, sColumn - 10);
                     else if(testRoom.hasExplored()){
-                        g2.drawString(testRoom.getSymbol(), sRow+6, sColumn+20);
+                        g2.drawString(testRoom.getSymbol(), sRow + 2, sColumn - 10);
                     }
                     else
-                       g2.drawString("0", sRow+10, sColumn+20);
+                       g2.drawString("0", sRow + 12, sColumn - 10);
                 }
             }
         }
