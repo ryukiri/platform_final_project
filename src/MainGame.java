@@ -142,7 +142,7 @@ public class MainGame extends JPanel implements ActionListener {
                 }
             } else if (source == observeButton) {
                 textArea.append(relativeLoc.getDesc() + newline);
-                textArea.append("Exits:   " + relativeLoc.getExits() + newline);
+                textArea.append("Exits:    " + relativeLoc.getExits() + newline);
                 if(player.getLocation().getContents()!= null){
                     textArea.append("Items availible to be picked up:" + newline);
                     for(Item i: player.getLocation().getContents()){
