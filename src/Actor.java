@@ -30,6 +30,7 @@ public class Actor {
     //other variables
     private Room location;
     private ArrayList <Item> contents;
+    private ArrayList <Gear> equipList;
 
     public Actor(){
         initStats();
@@ -60,6 +61,7 @@ public class Actor {
         defVal = new Stat("Defense Value",0,"skill");
         weaponVal = new Stat("Weapon Value", 0, 0, "range");
         contents = new ArrayList <Item> ();
+        equipList = new ArrayList <Gear> ();
     }
     
     Room getLocation(){
@@ -129,12 +131,26 @@ public class Actor {
     public ArrayList <Item> getContents(){
         return contents;
     }
-
-    public void removeContents(Item x){
-        contents.remove(x);
+    
+    public ArrayList <Gear> getEquipList(){
+        return equipList;
     }
-
-    public void removeContents(int x){
-        contents.remove(x);
+    
+    public void equip(Gear g){
+        if(equipList == null){
+            System.out.println("Failed to find equip list.");
+            return;
+        }
+        for(Gear o : equipList){
+            if(o.getSlot().equals(g.getSlot()))
+                unequip(o);
+        }
+        equipList.add(g);
+        location.getGameBoard().getMainGame().getTextArea().append("You have equipped " + g.getName() + "\n");
+    }
+    
+    public void unequip(Gear g){
+        equipList.remove(g);
+        location.getGameBoard().getMainGame().getTextArea().append("You have unequipped " + g.getName() + "\n");
     }
 }
