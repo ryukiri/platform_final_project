@@ -21,7 +21,9 @@ public class Item {
     public Item(Actor a){
         holder = a;
         a.getContents().add(this);
-        
+    }
+    
+    public Item(){
     }
     
     public void Move(Actor A){
