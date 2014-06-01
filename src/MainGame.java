@@ -115,21 +115,25 @@ public class MainGame extends JPanel implements ActionListener {
                         options[0]);
 
                 if (n == 0) {
+                    map.revalid();
                     if (relativeLoc.getNorth() != null) {
                         textArea.append("Moving North from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getNorth());
                     }
                 } else if (n == 1) {
+                    map.revalid();
                     if (relativeLoc.getSouth() != null) {
                         textArea.append("Moving South from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getSouth());
                     }
                 } else if (n == 2) {
+                    map.revalid();
                     if (relativeLoc.getEast() != null) {
                         textArea.append("Moving East from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getEast());
                     }
                 } else if (n == 3) {
+                    map.revalid();
                     if (relativeLoc.getWest() != null) {
                         textArea.append("Moving West from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getWest());
