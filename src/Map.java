@@ -39,7 +39,12 @@ public class Map extends JComponent {
                 Room testRoom = board.getLocation(r,c, "0");
                 if( testRoom != null){
                     if(board.getPlayer().getLocation().equals(testRoom))
+                    {
+                        g2.setColor( Color.RED );
+                        g2.drawRect( sRow, sColumn, 30,30);
+                        g2.setColor( Color.BLACK );
                         g2.drawString("P", sRow + 12, sColumn +20);
+                    }
                     else if(testRoom.hasExplored()){
                         g2.drawString(testRoom.getSymbol(), sRow + 2, sColumn +20);
                     }
