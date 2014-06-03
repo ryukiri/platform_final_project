@@ -206,7 +206,7 @@ public class GameBoard {
             int pick = (int) ((Math.random()*2) + 1);
             if(pick == 1){
                 //Prevents from going off the screen
-                if(x>10h) {
+                if(x>10) {
                     x-=2;
                 }else
                     x+= randomNum;
