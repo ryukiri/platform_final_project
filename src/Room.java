@@ -214,6 +214,7 @@ public class Room {
         */
 
         //New Logic: Experimental
+        /*
         Boolean n = g.isRoom(x, y+1);
         if(n == true){
             Room tempNorth = g.getLocation(x, y+1, name);
@@ -236,6 +237,24 @@ public class Room {
         if(w == true){
             Room tempWest = g.getLocation(x-1, y, name);
             west= tempWest;
+        }
+        */
+
+        Room tempNorth = g.getLocation(x, y+1, name);
+        Room tempEast = g.getLocation(x+1, y, name);
+        Room tempSouth = g.getLocation(x, y-1, name);
+        Room tempWest = g.getLocation(x-1, y, name);
+        if(tempNorth instanceof Room){
+            north = tempNorth;
+        }
+        if(tempEast instanceof Room){
+            east = tempEast;
+        }
+        if(tempSouth instanceof Room){
+            south = tempSouth;
+        }
+        if(tempWest instanceof Room){
+            west = tempWest;
         }
     }
     public int getX(){

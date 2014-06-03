@@ -151,6 +151,18 @@ public class GameBoard {
         return true;
     }
 
+    //Use instanceof
+    public boolean hasRoom(int x, int y){
+        for(Room stack: roomList){
+            if(stack != null){
+                if(stack.getX() == x && stack.getY() == y){
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+
     public String getDesc(){
         return desc;
     }
