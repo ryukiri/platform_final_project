@@ -213,6 +213,7 @@ public class Room {
         }
         */
 
+        //New Logic: Experimental
         Boolean n = g.isRoom(x, y+1);
         if(n == true){
             Room tempNorth = g.getLocation(x, y+1, name);

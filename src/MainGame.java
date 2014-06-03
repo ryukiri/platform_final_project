@@ -1,7 +1,3 @@
-/** Used Oracle's TextDemo.java as a base
- * http://docs.oracle.com/javase/tutorial/uiswing/examples/components/TextDemoProject/src/components/TextDemo.java
- **/
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -49,7 +45,7 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-        textArea = new JTextArea(30, 90);
+        textArea = new JTextArea(40, 55);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
@@ -121,25 +117,29 @@ public class MainGame extends JPanel implements ActionListener {
                         options[0]);
 
                 if (n == 0) {
-                    map.revalid();
+                    if(map != null)
+                        map.revalid();
                     if (relativeLoc.getNorth() != null) {
                         textArea.append("Moving North from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getNorth());
                     }
                 } else if (n == 1) {
-                    map.revalid();
+                    if(map != null)
+                        map.revalid();
                     if (relativeLoc.getSouth() != null) {
                         textArea.append("Moving South from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getSouth());
                     }
                 } else if (n == 2) {
-                    map.revalid();
+                    if(map != null)
+                        map.revalid();
                     if (relativeLoc.getEast() != null) {
                         textArea.append("Moving East from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getEast());
                     }
                 } else if (n == 3) {
-                    map.revalid();
+                    if(map != null)
+                        map.revalid();
                     if (relativeLoc.getWest() != null) {
                         textArea.append("Moving West from " + relativeLoc.getName() + newline);
                         player.setLocation(relativeLoc.getWest());
@@ -149,11 +149,11 @@ public class MainGame extends JPanel implements ActionListener {
                 }
             } else if (source == observeButton) {
                 textArea.append(relativeLoc.getDesc() + newline);
-                textArea.append("Exits:   " + relativeLoc.getExits() + newline);
+                textArea.append("Exits:" + relativeLoc.getExits());
                 if(player.getLocation().getContents()!= null){
                     textArea.append("Items availible to be picked up:" + newline);
                     for(Item i: player.getLocation().getContents()){
-                        textArea.append(i.getName() + ", ");
+                        textArea.append(i.getName() + newline);
                     }
                 }
                 else
