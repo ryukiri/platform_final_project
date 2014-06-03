@@ -25,6 +25,7 @@ public class GameBoard {
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.setLocation(Centauri);
         spawnRandomDungeon(Centauri);
+        //spawnLinearDungeon(Centauri);
         Item qq = new Gear(Centauri, "mainhand");
         qq.setName("Super Blunderbuss of Death");
         qq = new Gear(player, "mainhand");
@@ -136,6 +137,17 @@ public class GameBoard {
             }
         }
         return null;
+    }
+
+    public boolean isRoom(int x, int y){
+        for(Room stack: roomList){
+            if(stack != null){
+                if(stack.getX() == x && stack.getY() == y){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public String getDesc(){

@@ -49,7 +49,7 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-        textArea = new JTextArea(70, 90);
+        textArea = new JTextArea(30, 90);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
