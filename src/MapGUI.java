@@ -28,11 +28,6 @@ public class MapGUI {
     {
         fra.repaint();
         fra.revalidate();
-
-        JPanel panel = new JPanel();
-        Map graphics = new Map(board);
-        fra.add(graphics);
-        fra.setVisible(true);
         
     }
 }
