@@ -181,6 +181,27 @@ public class MainGame extends JPanel implements ActionListener {
                 if(iter == 0){
                     textArea.append("There are no items in your inventory.");
                 }
+
+                Object[] options = {"Equip",
+                                    "Drop",
+                                    "Unequip",};
+                int n = JOptionPane.showOptionDialog(
+                        frame,
+                        "What would you like to do?",
+                        "Options",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+
+                if (n == 0) {
+
+                }else if (n == 1) {
+
+                }else if(n == 2){
+
+                }
             } else if(source == pickUpButton){
                 String n = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
                 if( n == null){
