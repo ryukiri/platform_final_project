@@ -148,7 +148,7 @@ public class GameBoard {
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public String getDesc(){
@@ -205,9 +205,18 @@ public class GameBoard {
             int randomNum = (int) ((Math.random()*2)+1);
             int pick = (int) ((Math.random()*2) + 1);
             if(pick == 1){
-                x+= randomNum;
-            }else
-                x -= randomNum;
+                //Prevents from going off the screen
+                if(x>10h) {
+                    x-=2;
+                }else
+                    x+= randomNum;
+            }else{
+                //Prevents from going off screen
+                if(x<0){
+                    x+=2;
+                }else
+                    x -= randomNum;
+            }
         }
     } 
     public void addRoom(Room r){
