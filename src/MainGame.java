@@ -152,8 +152,11 @@ public class MainGame extends JPanel implements ActionListener {
                 textArea.append("Exits:" + relativeLoc.getExits());
                 if(player.getLocation().getContents()!= null){
                     textArea.append("Items availible to be picked up:" + newline);
+                    int x = 0;
                     for(Item i: player.getLocation().getContents()){
+                        textArea.append(x + " ");
                         textArea.append(i.getName() + newline);
+                        x++;
                     }
                 }
                 else
@@ -171,20 +174,26 @@ public class MainGame extends JPanel implements ActionListener {
                 int iter = 0;
                 textArea.append("Items in your inventory:" + newline);
                 for(Item i : items){
-                    iter++;
+                    textArea.append(iter + ". ");
                     textArea.append(i.getName() + newline);
+                    iter++;
                 }
                 if(iter == 0){
                     textArea.append("There are no items in your inventory.");
                 }
             } else if(source == pickUpButton){
                 String n = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
+                if( n == null){
+                    return;
+                }
+                if(n.equals(""))
+                    return;
                 int convertedNum = Integer.parseInt(n);
                 if(convertedNum>= player.getLocation().getContents().size()){
                     textArea.append(newline + "That item does not exist." + newline);
                 }
                 else{
-                    textArea.append(newline + "You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
+                    textArea.append("You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
                     player.getLocation().getContents().get(convertedNum).Move(player);
                 }
                             
