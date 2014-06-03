@@ -138,6 +138,18 @@ public class GameBoard {
         return null;
     }
 
+    //Experimental: returns true if there is a room there
+    public boolean isRoom(int x, int y){
+        for(Room stack: roomList){
+            if(stack != null){
+                if(stack.getX() == x && stack.getY() == y){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public String getDesc(){
         return desc;
     }
