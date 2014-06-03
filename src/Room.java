@@ -210,6 +210,32 @@ public class Room {
         if(tempWest != null){
             west = tempWest;
         }
+        
+        /** New Logic; experimental
+        Boolean n = g.isRoom(x, y+1);
+        if(n == true){
+            Room tempNorth = g.getLocation(x, y+1, name);
+            north = tempNorth;
+        }
+
+        Boolean e = g.isRoom(x+1, y);
+        if(e == true){
+            Room tempEast = g.getLocation(x+1, y, name);
+            east = tempEast;
+        }
+
+        Boolean s = g.isRoom(x, y-1);
+        if(s == true){
+            Room tempSouth = g.getLocation(x, y-1, name);
+            south = tempSouth;
+        }
+
+        Boolean w = g.isRoom(x-1, y);
+        if(w == true){
+            Room tempWest = g.getLocation(x-1, y, name);
+            west= tempWest;
+        }
+        */
     }
     public int getX(){
         return x;
