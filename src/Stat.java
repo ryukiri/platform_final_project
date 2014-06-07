@@ -72,6 +72,15 @@ public class Stat {
         maxValue*=x;
     }
 
+    public void permAdd(int x){
+        value+=x;
+        maxValue+=x;
+    }
+
+    public void permMultiply(int x){
+        value*=x;
+        maxValue*=x;
+    }
     public String getType(){
         return type;
     }

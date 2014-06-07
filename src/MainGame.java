@@ -196,8 +196,21 @@ public class MainGame extends JPanel implements ActionListener {
                         null,
                         options,
                         options[0]);
-
                 if (n == 0) {
+                    String choice = JOptionPane.showInputDialog(frame, "Equip which item? (number)");
+                    if( choice == null){
+                        return;
+                    }
+                    if(choice.equals(""))
+                        return;
+                    int convertedNum = Integer.parseInt(choice);
+                    Item decided = player.getLocation().getContents().get(convertedNum);
+                    if(convertedNum>= player.getLocation().getContents().size()){
+                        textArea.append(newline + "That item does not exist." + newline);
+                    }else if(decided instanceof Gear){
+                        textArea.append("You have equipped " + decided.getName() + newline);
+                        player.getLocation().getContents().get(convertedNum).Move(player);
+                    }
 
                 }else if (n == 1) {
 
