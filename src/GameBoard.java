@@ -31,6 +31,11 @@ public class GameBoard {
         qq = new Gear(player, "mainhand");
         qq.setName("Blasting Rifle");
 
+        Item drug = new MedKit(player);
+        drug.setName("Potion");
+        drug = new MedKit(player);
+        drug.setName("Poison");
+
         //Dremol
         Room Dremol = new Room(0,-1, this);
         Dremol.setName("Dremol");

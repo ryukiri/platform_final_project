@@ -39,6 +39,7 @@ public class MainGame extends JPanel implements ActionListener {
     private final static String newline = "\n";
     private final static JFrame frame = new JFrame("Server");
     private static GameBoard mainBoard;
+    private static Stat stat;
     private static MapGUI map;
     private static ActionListener buttonListener;
     private static ActionListener menuListener;
@@ -184,7 +185,8 @@ public class MainGame extends JPanel implements ActionListener {
 
                 Object[] options = {"Equip",
                                     "Drop",
-                                    "Unequip",};
+                                    "Unequip",
+                                    "Use"};
                 int n = JOptionPane.showOptionDialog(
                         frame,
                         "What would you like to do?",
@@ -200,6 +202,35 @@ public class MainGame extends JPanel implements ActionListener {
                 }else if (n == 1) {
 
                 }else if(n == 2){
+
+                }else if(n == 3){
+                    //Use Button
+                    String num = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
+                    if(num == null){
+                        return;
+                    }
+                    if(num.equals("")){
+                        return;
+                    }
+                    int convertedNum = Integer.parseInt(num);
+
+                    if(player.getContents().get(convertedNum) instanceof MedKit){
+                        textArea.append("You have used: " + player.getContents().get(convertedNum).getName()+newline);
+                        if(player.getContents().get(convertedNum).getName().equals("Potion")){
+                            textArea.append("HP has been restored by 20." + newline);
+                            player.increaseHP(20);
+                            mainBoard.getPlayer().increaseHP(20);
+                            playerHealth.setText(mainBoard.getPlayer().health());
+                            playerHealth = new JLabel(mainBoard.getPlayer().health());
+                        }else if(player.getContents().get(convertedNum).getName().equals("Poison")){
+                            textArea.append("You have lost 20 HP." + newline);
+                            mainBoard.getPlayer().lowerHP(20);
+                            playerHealth.setText(mainBoard.getPlayer().health());
+                        }
+                    }else{
+                        textArea.append("That item is not a drug and cannot be used.");
+                    }
+                }else if(n == 4){
 
                 }
             } else if(source == pickUpButton){
@@ -217,10 +248,10 @@ public class MainGame extends JPanel implements ActionListener {
                     textArea.append("You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
                     player.getLocation().getContents().get(convertedNum).Move(player);
                 }
-                            
+
             }
         }else if(event.getSource() instanceof JMenuItem){
-            JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
+            JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14; FIXED
             if(sourceMenu == quit){
                 System.exit(0);
             }else if(sourceMenu == gameHelp){
@@ -333,6 +364,12 @@ public class MainGame extends JPanel implements ActionListener {
         quit.addActionListener(menuListener);
         gameHelp.addActionListener(menuListener);
 
+    }
+
+    private void revalid()
+    {
+        frame.repaint();
+        frame.revalidate();
     }
 
     public static void main(String[] args) {

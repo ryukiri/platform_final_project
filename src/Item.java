@@ -24,6 +24,7 @@ public class Item {
     }
     
     public Item(){
+
     }
     
     public void Move(Actor A){

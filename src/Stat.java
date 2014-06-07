@@ -42,11 +42,34 @@ public class Stat {
     }
 
     public void add(int x){
-        value += x;
+        if(value+x > maxValue){
+            value = maxValue;
+        }else
+            value += x;
     }
 
     public void multiply(int x){
-        value *= x;
+        if(value*x > maxValue){
+            value = maxValue;
+        }else
+            value *= x;
+    }
+
+    public void subtract(int x){
+        if(value-x < 0){
+            value = 0;
+        }else
+            value-=x;
+    }
+
+    public void permAdd(int x){
+        value+=x;
+        maxValue+=x;
+    }
+
+    public void permMultiply(int x){
+        value*=x;
+        maxValue*=x;
     }
 
     public String getType(){

@@ -153,4 +153,164 @@ public class Actor {
         equipList.remove(g);
         location.getGameBoard().getMainGame().getTextArea().append("You have unequipped " + g.getName() + "\n");
     }
+
+    public void lowerHP(int x){
+        health.subtract(x);
+    }
+
+    public void increaseHP(int x){
+        health.add(x);
+    }
+
+    public Stat getHealth(){
+        return health;
+    }
+
+    public Stat getStamina(){
+        return stamina;
+    }
+
+    public Stat getElement(){
+        return element;
+    }
+
+    public Stat getShield(){
+        return shield;
+    }
+
+    public Stat getXp(){
+        return xp;
+    }
+
+    public Stat getFin(){
+        return fin;
+    }
+
+    public Stat getAgil(){
+        return agil;
+    }
+
+    public Stat getStr(){
+        return str;
+    }
+
+    public Stat getCons(){
+        return cons;
+    }
+
+    public Stat getRes(){
+        return res;
+    }
+
+    public Stat getApt(){
+        return apt;
+    }
+
+    public Stat getAtkVal(){
+        return atkVal;
+    }
+
+    public Stat getDefVal(){
+        return defVal;
+    }
+
+    public Stat getWeaponVal(){
+        return weaponVal;
+    }
+
+    public Stat getArmorVal(){
+        return armorVal;
+    }
+
+    public Stat getCritChance(){
+        return critChance;
+    }
+
+    public Stat getCritDamage(){
+        return critDamage;
+    }
+
+    public Stat getCritMod(){
+        return critMod;
+    }
+
+    public Stat getCritModDmg(){
+        return critModDmg;
+    }
+
+    public void setHealth(Stat x){
+        health = x;
+    }
+
+    public void setStamina(Stat x){
+        stamina = x;
+    }
+
+    public void setElement(Stat x){
+        element = x;
+    }
+
+    public void setShield(Stat x){
+        shield = x;
+    }
+
+    public void setXp(Stat x){
+        xp = x;
+    }
+
+    public void setFin(Stat x){
+        fin = x;
+    }
+
+    public void setAgil(Stat x){
+        agil = x;
+    }
+
+    public void setStr(Stat x){
+        str = x;
+    }
+
+    public void setCons(Stat x){
+        cons = x;
+    }
+
+    public void setRes(Stat x){
+        res = x;
+    }
+
+    public void setApt(Stat x){
+        apt = x;
+    }
+
+    public void setAtkVal(Stat x){
+        atkVal = x;
+    }
+
+    public void setDefVal(Stat x){
+        defVal = x;
+    }
+
+    public void setWeaponVal(Stat x){
+        weaponVal = x;
+    }
+
+    public void setArmorVal(Stat x){
+        armorVal = x;
+    }
+
+    public void setCritChance(Stat x){
+        critChance = x;
+    }
+
+    public void setCritDamage(Stat x){
+        critDamage = x;
+    }
+
+    public void setCritMod(Stat x){
+        critMod = x;
+    }
+
+    public void setCritModDmg(Stat x){
+        critModDmg = x;
+    }
 }
