@@ -9,8 +9,9 @@ public class MainGame extends JPanel implements ActionListener {
     private static JButton abortButton;
     private static JButton mapButton;
     private static JButton inventoryButton;
-    private static JButton pickUpButton;
+    private static JButton skillButton;
     private static JLabel playerName;
+    private static JLabel playerLevel;
     private static JLabel playerHealth;
     private static JLabel playerStamina;
     private static JLabel playerElement;
@@ -22,9 +23,9 @@ public class MainGame extends JPanel implements ActionListener {
     private static JLabel playerCons;
     private static JLabel playerRes;
     private static JLabel playerApt;
+    private static JLabel playerSp;
     private static JLabel playerAtkVal;
     private static JLabel playerDefVal;
-    private static JLabel playerWeaponVal;
     private static JLabel space;
     private static JMenu help;
     private static JMenu options;
@@ -39,7 +40,6 @@ public class MainGame extends JPanel implements ActionListener {
     private final static String newline = "\n";
     private final static JFrame frame = new JFrame("Server");
     private static GameBoard mainBoard;
-    private static Stat stat;
     private static MapGUI map;
     private static ActionListener buttonListener;
     private static ActionListener menuListener;
@@ -60,10 +60,11 @@ public class MainGame extends JPanel implements ActionListener {
         c.weighty = 1.0;
         add(scrollPane, c);
 
-        mainBoard = new GameBoard();
+        mainBoard = new GameBoard(this);
         playerName = new JLabel("Player Name: " +mainBoard.getPlayerName());
         space = new JLabel(" ");
         //Stats: xp,health,stamina,element,shield,fin,agil,str,cons,res,apt,atkVal,defVal
+        playerLevel = new JLabel(mainBoard.getPlayer().level());
         playerHealth = new JLabel(mainBoard.getPlayer().health());
         playerStamina = new JLabel(mainBoard.getPlayer().stamina());
         playerElement = new JLabel(mainBoard.getPlayer().element());
@@ -75,16 +76,33 @@ public class MainGame extends JPanel implements ActionListener {
         playerCons = new JLabel(mainBoard.getPlayer().cons());
         playerRes = new JLabel(mainBoard.getPlayer().res());
         playerApt = new JLabel(mainBoard.getPlayer().apt());
+        playerSp = new JLabel(mainBoard.getPlayer().sp());
         playerAtkVal = new JLabel(mainBoard.getPlayer().atkVal());
         playerDefVal = new JLabel(mainBoard.getPlayer().defVal());
-        playerWeaponVal = new JLabel(mainBoard.getPlayer().weaponVal());
         textArea.append("Use the observe button to look around" + newline);
-        mainBoard.setParentGUI(this);
         
     }
 
     public MainGame(int x){
 
+    }
+    
+    public void update(){
+        playerLevel.setText(mainBoard.getPlayer().level());
+        playerHealth.setText(mainBoard.getPlayer().health());
+        playerStamina.setText(mainBoard.getPlayer().stamina());
+        playerElement.setText(mainBoard.getPlayer().element());
+        playerShield.setText(mainBoard.getPlayer().shield());
+        playerXp.setText(mainBoard.getPlayer().xp());
+        playerFin.setText(mainBoard.getPlayer().fin());
+        playerAgil.setText(mainBoard.getPlayer().agil());
+        playerStr.setText(mainBoard.getPlayer().str());
+        playerCons.setText(mainBoard.getPlayer().cons());
+        playerRes.setText(mainBoard.getPlayer().res());
+        playerApt.setText(mainBoard.getPlayer().apt());
+        playerSp.setText(mainBoard.getPlayer().sp());
+        playerAtkVal.setText(mainBoard.getPlayer().atkVal());
+        playerDefVal.setText(mainBoard.getPlayer().defVal());
     }
     
     public JTextArea getTextArea(){
@@ -96,6 +114,9 @@ public class MainGame extends JPanel implements ActionListener {
         Actor player = mainBoard.getPlayer();
         Room relativeLoc = player.getLocation();
         relativeLoc.explored();
+        if(player.isFrozen() == true){
+            return;
+        }
         if(event.getSource() instanceof JButton) {
 
             if (source == moveButton) {
@@ -121,38 +142,34 @@ public class MainGame extends JPanel implements ActionListener {
                     if(map != null)
                         map.revalid();
                     if (relativeLoc.getNorth() != null) {
-                        textArea.append("Moving North from " + relativeLoc.getName() + newline);
-                        player.setLocation(relativeLoc.getNorth());
+                        player.move(relativeLoc, relativeLoc.getNorth());
                     }
                 } else if (n == 1) {
                     if(map != null)
                         map.revalid();
                     if (relativeLoc.getSouth() != null) {
-                        textArea.append("Moving South from " + relativeLoc.getName() + newline);
-                        player.setLocation(relativeLoc.getSouth());
+                        player.move(relativeLoc, relativeLoc.getSouth());
                     }
                 } else if (n == 2) {
                     if(map != null)
                         map.revalid();
                     if (relativeLoc.getEast() != null) {
-                        textArea.append("Moving East from " + relativeLoc.getName() + newline);
-                        player.setLocation(relativeLoc.getEast());
+                        player.move(relativeLoc, relativeLoc.getEast());
                     }
                 } else if (n == 3) {
                     if(map != null)
                         map.revalid();
                     if (relativeLoc.getWest() != null) {
-                        textArea.append("Moving West from " + relativeLoc.getName() + newline);
-                        player.setLocation(relativeLoc.getWest());
+                        player.move(relativeLoc, relativeLoc.getWest());
                     }
                 } else if (n == JOptionPane.CLOSED_OPTION) {
                     textArea.append("Movement Canceled" + newline);
                 }
             } else if (source == observeButton) {
                 textArea.append(relativeLoc.getDesc() + newline);
-                textArea.append("Exits:" + relativeLoc.getExits());
+                textArea.append("Exits:" + relativeLoc.getExits() + newline);
                 if(player.getLocation().getContents()!= null){
-                    textArea.append("Items availible to be picked up:" + newline);
+                    textArea.append("Items available to be picked up:" + newline);
                     int x = 0;
                     for(Item i: player.getLocation().getContents()){
                         textArea.append(x + " ");
@@ -170,6 +187,18 @@ public class MainGame extends JPanel implements ActionListener {
             } else if (source == mapButton) {
                 map = new MapGUI(mainBoard);
                 map.mapFrame();
+            } else if (source == skillButton){
+                ArrayList <Skill> listingSkills = player.getKnownSkills();
+                int iter = 0;
+                textArea.append("Skills currently equipped: " + newline);
+                for(Skill s : listingSkills){
+                    textArea.append(iter + ". ");
+                    textArea.append(s.getName() + newline);
+                    iter++;
+                }
+                if(iter == 0){
+                    textArea.append("There are no skills currently activated." + newline);
+                }
             } else if (source == inventoryButton){
                 ArrayList <Item> items = player.getContents();
                 int iter = 0;
@@ -180,13 +209,25 @@ public class MainGame extends JPanel implements ActionListener {
                     iter++;
                 }
                 if(iter == 0){
-                    textArea.append("There are no items in your inventory.");
+                    textArea.append("There are no items in your inventory." + newline);
+                }
+                ArrayList <Gear> equippedItems = player.getEquipList();
+                int iterE = 0;
+                textArea.append("Items equipped:" + newline);
+                for(Gear i : equippedItems){
+                    textArea.append(iterE + ". " + i.getSlot() + " ");
+                    textArea.append(i.getName() + newline);
+                    iterE++;
+                }
+                if(iterE == 0){
+                    textArea.append("There are no items equipped." + newline);
                 }
 
                 Object[] options = {"Equip",
-                                    "Drop",
+                                    "Pick Up",
                                     "Unequip",
-                                    "Use"};
+                                    "Use",
+                                    "Destroy"};
                 int n = JOptionPane.showOptionDialog(
                         frame,
                         "What would you like to do?",
@@ -204,21 +245,52 @@ public class MainGame extends JPanel implements ActionListener {
                     if(choice.equals(""))
                         return;
                     int convertedNum = Integer.parseInt(choice);
-                    Item decided = player.getLocation().getContents().get(convertedNum);
-                    if(convertedNum>= player.getLocation().getContents().size()){
-                        textArea.append(newline + "That item does not exist." + newline);
-                    }else if(decided instanceof Gear){
-                        textArea.append("You have equipped " + decided.getName() + newline);
-                        player.getLocation().getContents().get(convertedNum).Move(player);
+                    if(convertedNum>= player.getContents().size()){
+                        textArea.append("That item does not exist." + newline);
+                        return;
+                    }
+                    Item decided = player.getContents().get(convertedNum);
+                    if(decided instanceof Gear){
+                        player.equip((Gear) decided);
+                    }
+                    else{
+                        textArea.append("This item is not equippable." + newline);
                     }
 
                 }else if (n == 1) {
+       
+                    String choice = JOptionPane.showInputDialog(frame, "Which item? (number)");
+                    if( choice == null){
+                        return;
+                    }
+                    if(choice.equals(""))
+                        return;
+                    int convertedNum = Integer.parseInt(choice);
+                    if(convertedNum>= player.getLocation().getContents().size()){
+                        textArea.append("That item does not exist." + newline);
+                    }
+                    else{
+                        textArea.append("You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
+                        player.getLocation().getContents().get(convertedNum).Move(player);
+                    }
 
                 }else if(n == 2){
-
+                    String choice = JOptionPane.showInputDialog(frame, "Unequip which item? (number)");
+                    if( choice == null){
+                        return;
+                    }
+                    if(choice.equals(""))
+                        return;
+                    int convertedNum = Integer.parseInt(choice);
+                    Gear decided = player.getEquipList().get(convertedNum);
+                    if(convertedNum>= player.getEquipList().size()){
+                        textArea.append("That item does not exist." + newline);
+                    }else if(decided instanceof Gear){
+                        player.unequip((Gear) decided);
+                    } 
                 }else if(n == 3){
                     //Use Button
-                    String num = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
+                    String num = JOptionPane.showInputDialog(frame, "Which item? (number)");
                     if(num == null){
                         return;
                     }
@@ -226,45 +298,33 @@ public class MainGame extends JPanel implements ActionListener {
                         return;
                     }
                     int convertedNum = Integer.parseInt(num);
-
-                    if(player.getContents().get(convertedNum) instanceof MedKit){
-                        textArea.append("You have used: " + player.getContents().get(convertedNum).getName()+newline);
-                        if(player.getContents().get(convertedNum).getName().equals("Potion")){
-                            textArea.append("HP has been restored by 20." + newline);
-                            player.increaseHP(20);
-                            mainBoard.getPlayer().increaseHP(20);
-                            playerHealth.setText(mainBoard.getPlayer().health());
-                            playerHealth = new JLabel(mainBoard.getPlayer().health());
-                        }else if(player.getContents().get(convertedNum).getName().equals("Poison")){
-                            textArea.append("You have lost 20 HP." + newline);
-                            mainBoard.getPlayer().lowerHP(20);
-                            playerHealth.setText(mainBoard.getPlayer().health());
-                        }
-                    }else{
-                        textArea.append("That item is not a drug and cannot be used.");
+                    if(player.getContents().get(convertedNum) instanceof Item){
+                        player.getContents().get(convertedNum).use();                        
+                    }
+                    else{
+                        textArea.append("That item does not exist." + newline);
                     }
                 }else if(n == 4){
-
+                    //Use Button
+                    String num = JOptionPane.showInputDialog(frame, "Which item? (number)");
+                    if(num == null){
+                        return;
+                    }
+                    if(num.equals("")){
+                        return;
+                    }
+                    int convertedNum = Integer.parseInt(num);
+                    if(player.getContents().get(convertedNum) instanceof Item){
+                        player.getContents().get(convertedNum).remove();
+                        textArea.append("You have destroyed " + player.getContents().get(convertedNum).getName() + newline);
+                    }
+                    else{
+                        textArea.append("That item does not exist." + newline);
+                    }
                 }
-            } else if(source == pickUpButton){
-                String n = JOptionPane.showInputDialog(frame, "Which item? (0-10)");
-                if( n == null){
-                    return;
-                }
-                if(n.equals(""))
-                    return;
-                int convertedNum = Integer.parseInt(n);
-                if(convertedNum>= player.getLocation().getContents().size()){
-                    textArea.append(newline + "That item does not exist." + newline);
-                }
-                else{
-                    textArea.append("You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
-                    player.getLocation().getContents().get(convertedNum).Move(player);
-                }
-
             }
         }else if(event.getSource() instanceof JMenuItem){
-            JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14; FIXED
+            JMenuItem sourceMenu = (JMenuItem) event.getSource(); // <-- error here for me, tested 5/25/14
             if(sourceMenu == quit){
                 System.exit(0);
             }else if(sourceMenu == gameHelp){
@@ -299,7 +359,7 @@ public class MainGame extends JPanel implements ActionListener {
         abortButton = new JButton("Abort");
         mapButton = new JButton("Map");
         inventoryButton = new JButton("Inventory");
-        pickUpButton = new JButton("Pick Up");
+        skillButton = new JButton("Skills");
         //Add button listeners
         buttonListener = new MainGame(1);
         moveButton.addActionListener(buttonListener);
@@ -307,8 +367,7 @@ public class MainGame extends JPanel implements ActionListener {
         abortButton.addActionListener(buttonListener);
         mapButton.addActionListener(buttonListener);
         inventoryButton.addActionListener(buttonListener);
-        pickUpButton.addActionListener(buttonListener);
-        
+        skillButton.addActionListener(buttonListener);
     }
 
     private static void panels(){
@@ -319,13 +378,14 @@ public class MainGame extends JPanel implements ActionListener {
         mainPanel = new JPanel();
 
         //Button Panel Grid Layout
-        buttonPanel.setLayout(new GridLayout(21,1));
+        buttonPanel.setLayout(new GridLayout(25,1));
         statPanel.setLayout(new GridLayout(13,1));
 
         //Add contents to panel
         textPanel.add(new MainGame());
         buttonPanel.add(playerName);
         //Stats: xp,health,stamina,element,shield,fin,agil,str,cons,res,apt,atkVal,defVal
+        buttonPanel.add(playerLevel);
         buttonPanel.add(playerHealth);
         buttonPanel.add(playerStamina);
         buttonPanel.add(playerElement);
@@ -337,6 +397,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(playerCons);
         buttonPanel.add(playerRes);
         buttonPanel.add(playerApt);
+        buttonPanel.add(playerSp);
         buttonPanel.add(playerAtkVal);
         buttonPanel.add(playerDefVal);
         buttonPanel.add(space);
@@ -345,7 +406,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(abortButton);
         buttonPanel.add(mapButton);
         buttonPanel.add(inventoryButton);
-        buttonPanel.add(pickUpButton);
+        buttonPanel.add(skillButton);
 
         //Add stuff to main panel
         mainPanel.add(textPanel);
@@ -377,12 +438,6 @@ public class MainGame extends JPanel implements ActionListener {
         quit.addActionListener(menuListener);
         gameHelp.addActionListener(menuListener);
 
-    }
-
-    private void revalid()
-    {
-        frame.repaint();
-        frame.revalidate();
     }
 
     public static void main(String[] args) {
