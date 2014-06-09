@@ -24,7 +24,6 @@ public class Item {
     }
     
     public Item(){
-
     }
     
     public void Move(Actor A){
@@ -59,4 +58,11 @@ public class Item {
         
     }
     
+    public Actor getHolder(){
+        return holder;
+    }
+   
+    public void use(){
+        holder.getLocation().getGameBoard().getMainGame().getTextArea().append("Nothing happens.");
+    }
 }
