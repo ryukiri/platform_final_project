@@ -16,11 +16,13 @@ public class Falcon extends Sword {
     public void equipEffect(Actor a){
         a.getCritDamage().setValue(20);
         System.out.println(a.getCritDamage().getValue() + " Critical Damage");
+        setRange(4);
     }
 
     @Override
     public void unequipEffect(Actor a){
         a.getCritDamage().setValue(1);
         System.out.println(a.getCritDamage().getValue() + " Critical Damage");
+        setRange(0);
     }
 }
