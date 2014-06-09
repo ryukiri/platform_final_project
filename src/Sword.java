@@ -19,5 +19,4 @@ public class Sword extends Weapon{
         super(r, "mainhand", newValue, newRange);
         setName(s);
     }
-    
 }

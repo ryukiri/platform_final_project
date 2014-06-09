@@ -52,7 +52,7 @@ public class Weapon extends Gear {
     }
     
     public int process(Actor a, int x){
-        System.out.println((double) a.getStr().getValue()/10 + " strength modifier");
-        return (int) (x * (1 + (double) a.getStr().getValue()/10 ));     
+        System.out.println((double) a.getStr().getValue()/20 + " strength modifier");
+        return (int) (x * (1 + (double) a.getStr().getValue()/20 ));
     }
 }

@@ -46,7 +46,7 @@ public class MainGame extends JPanel implements ActionListener {
 
     public MainGame() {
         super(new GridBagLayout());
-        textArea = new JTextArea(40, 55);
+        textArea = new JTextArea(40, 60);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
@@ -103,6 +103,7 @@ public class MainGame extends JPanel implements ActionListener {
         playerSp.setText(mainBoard.getPlayer().sp());
         playerAtkVal.setText(mainBoard.getPlayer().atkVal());
         playerDefVal.setText(mainBoard.getPlayer().defVal());
+        frame.pack();
     }
     
     public JTextArea getTextArea(){

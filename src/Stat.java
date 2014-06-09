@@ -53,6 +53,14 @@ public class Stat {
         owner.update();
     }
 
+    public void subtract(int x){
+        if(value-x < 0){
+            value = 0;
+        }else
+            value -= x;
+        owner.update();
+    }
+
     public void multiply(int x){
         if(value*x > maxValue){
             value = maxValue;

@@ -81,10 +81,13 @@ public class Actor {
         sp = new Stat("Speed", 0, "skill", this);
         baseSp = new Stat("Base Speed", 0, "skill", this);
         momentum = new Stat("Momentum", 0, "skill", this);
+        critDamage = new Stat("Critical Damage", 1, this);
         contents = new ArrayList <Item> ();
         equipList = new ArrayList <Gear> ();
         knownSkills = new ArrayList <Skill> ();
         Skill s = new Skill(this);
+        getHealth().permSet(50 + getCons().getValue()*4 + getLevel().getValue() * 5);
+        getStamina().permSet(getStr().getValue()*2 + 25);
     }
     
     Room getLocation(){
@@ -270,9 +273,8 @@ public class Actor {
     public Stat getCritModDmg(){
         return critModDmg;
     }
+
     public void update(){
-        getHealth().permSet(50 + getCons().getValue()*4 + getLevel().getValue() * 5);
-        getStamina().permSet(getStr().getValue()*2 + 25);
         getSp().permSet(getMomentum().getValue()*4 + getBaseSp().getValue());
         if(overLord instanceof MainGame)
             overLord.update();

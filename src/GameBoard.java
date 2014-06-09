@@ -25,6 +25,7 @@ public class GameBoard {
         faster.setSpeed(3);
         Actor fastest = new Actor("Fastest");
         fastest.setSpeed(4);
+
         //Centauri
         Room Centauri = new Room(6,0,this, "CEN");
         Centauri.setName("Centauri");
@@ -40,6 +41,14 @@ public class GameBoard {
         drug.setName("Potion");
         drug = new MedKit(player, -12);
         drug.setName("Poison");
+
+        Gun I1I = new Gun(Centauri, "Pistol");
+        Saber I1IIl = new Saber(Centauri, "Purple Neon Saber");
+        Falcon IlI1 = new Falcon(Centauri, "Bird Who Flies");
+        Fork ll1Il = new Fork(Centauri, "The Mighty Fork");
+        Bow IIl11ll = new Bow(Centauri, "Brown Shooter");
+
+
         //Dremol
         Room Dremol = new Room(0,-1, this);
         Dremol.setName("Dremol");
