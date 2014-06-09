@@ -12,30 +12,34 @@ public class GameBoard {
     private MainGame mainGame;
 
 
-    public GameBoard(){
+    public GameBoard(MainGame q){
+        mainGame = q;
         worldName = "Flashpoint";
         roomList = new ArrayList <Room> ();
         desc = "You are located in Station Flashpoint.";
         String name = JOptionPane.showInputDialog("Input your name: ");
-        player = new Actor(name);
-
+        player = new Actor(name, mainGame);
+        Actor fast = new Actor("Fast");
+        fast.setSpeed(2);
+        Actor faster = new Actor("Faster");
+        faster.setSpeed(3);
+        Actor fastest = new Actor("Fastest");
+        fastest.setSpeed(4);
         //Centauri
-        Room Centauri = new Room(8,0,this, "CEN");
+        Room Centauri = new Room(6,0,this, "CEN");
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
-        player.setLocation(Centauri);
+        player.move(Centauri);
+        fast.move(Centauri);
+        faster.move(Centauri);
+        fastest.move(Centauri);
         spawnRandomDungeon(Centauri);
+        Sword S = new Sword(Centauri, "Super Adventure Sword");
         //spawnLinearDungeon(Centauri);
-        Item qq = new Gear(Centauri, "mainhand");
-        qq.setName("Super Blunderbuss of Death");
-        qq = new Gear(player, "mainhand");
-        qq.setName("Blasting Rifle");
-
-        Item drug = new MedKit(player);
+        Item drug = new MedKit(player, 12);
         drug.setName("Potion");
-        drug = new MedKit(player);
+        drug = new MedKit(player, -12);
         drug.setName("Poison");
-
         //Dremol
         Room Dremol = new Room(0,-1, this);
         Dremol.setName("Dremol");
@@ -238,10 +242,6 @@ public class GameBoard {
     } 
     public void addRoom(Room r){
         roomList.add(r);
-    }
-    
-    public void setParentGUI(MainGame m){
-        mainGame = m;
     }
     
     public MainGame getMainGame(){
