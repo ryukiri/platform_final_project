@@ -24,4 +24,16 @@ public class Gear extends Item {
     public String getSlot(){
         return slot;
     }
+    
+    public void setSlot(String newSlot){
+        slot = newSlot;
+    }
+    
+    public void equipEffect(Actor a){
+        
+    }
+    
+    public void unequipEffect(Actor a){
+        
+    }
 }
