@@ -47,6 +47,7 @@ public class GameBoard {
         Falcon IlI1 = new Falcon(Centauri, "Bird Who Flies");
         Fork ll1Il = new Fork(Centauri, "The Mighty Fork");
         Bow IIl11ll = new Bow(Centauri, "Brown Shooter");
+        CookingPan IllI1ll = new CookingPan(Centauri, "Mushroom Tomato Cooking Pan");
 
 
         //Dremol
