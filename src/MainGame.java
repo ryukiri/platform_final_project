@@ -87,6 +87,10 @@ public class MainGame extends JPanel implements ActionListener {
 
     }
     
+    public JFrame getJFrame(){
+        return frame;
+    }
+    
     public void update(){
         playerLevel.setText(mainBoard.getPlayer().level());
         playerHealth.setText(mainBoard.getPlayer().health());

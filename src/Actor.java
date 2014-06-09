@@ -1,7 +1,3 @@
-/**
- * Contains all the necessary info for actors and players.
- *
- */
 import java.util.*;
 import javax.swing.*;
 public class Actor {
