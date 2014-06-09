@@ -1,7 +1,3 @@
-/**
- * Contains all the necessary info for actors and players.
- *
- */
 import java.util.*;
 import javax.swing.*;
 public class Actor {
@@ -85,6 +81,8 @@ public class Actor {
         equipList = new ArrayList <Gear> ();
         knownSkills = new ArrayList <Skill> ();
         Skill s = new Skill(this);
+        getHealth().permSet(50 + getCons().getValue()*4 + getLevel().getValue() * 5);
+        getStamina().permSet(getStr().getValue()*2 + 25);
     }
     
     Room getLocation(){
@@ -271,8 +269,6 @@ public class Actor {
         return critModDmg;
     }
     public void update(){
-        getHealth().permSet(50 + getCons().getValue()*4 + getLevel().getValue() * 5);
-        getStamina().permSet(getStr().getValue()*2 + 25);
         getSp().permSet(getMomentum().getValue()*4 + getBaseSp().getValue());
         if(overLord instanceof MainGame)
             overLord.update();
