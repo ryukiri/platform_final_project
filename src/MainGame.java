@@ -87,6 +87,10 @@ public class MainGame extends JPanel implements ActionListener {
 
     }
     
+    public JFrame getJFrame(){
+        return frame;
+    }
+    
     public void update(){
         playerLevel.setText(mainBoard.getPlayer().level());
         playerHealth.setText(mainBoard.getPlayer().health());
@@ -103,6 +107,7 @@ public class MainGame extends JPanel implements ActionListener {
         playerSp.setText(mainBoard.getPlayer().sp());
         playerAtkVal.setText(mainBoard.getPlayer().atkVal());
         playerDefVal.setText(mainBoard.getPlayer().defVal());
+        frame.pack();
     }
     
     public JTextArea getTextArea(){
