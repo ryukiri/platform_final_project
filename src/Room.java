@@ -18,6 +18,7 @@ public class Room {
     private boolean explored = false;
     private String symbol;
     private ArrayList <Item> contents;
+    private ArrayList <Actor> actorList;
     
     public Room(int newX, int newY, GameBoard g, String newSymbol){
         x = newX;
@@ -25,6 +26,7 @@ public class Room {
         parentBoard = g;
         symbol = newSymbol;
         contents = new ArrayList <Item> ();
+        actorList = new ArrayList <Actor> ();
     }
     
     public Room(int newX, int newY, GameBoard g){ // there needs to be moar!
@@ -33,6 +35,7 @@ public class Room {
         parentBoard = g;
         symbol = "X";
         contents = new ArrayList <Item> ();
+        actorList = new ArrayList <Actor> ();
         int randomNum = (int) ((Math.random()*20)+1);
         if(randomNum == 1){
             name = "Medical Bay";
@@ -157,6 +160,7 @@ public class Room {
         y = 0;
         parentBoard = g;
         symbol = newSymbol;
+        actorList = new ArrayList <Actor> ();
     }
     
     public GameBoard getGameBoard(){
@@ -214,7 +218,7 @@ public class Room {
         */
 
         //New Logic: Experimental
-        /*
+       
         Boolean n = g.isRoom(x, y+1);
         if(n == true){
             Room tempNorth = g.getLocation(x, y+1, name);
@@ -238,8 +242,8 @@ public class Room {
             Room tempWest = g.getLocation(x-1, y, name);
             west= tempWest;
         }
-        */
-
+        
+/*
         Room tempNorth = g.getLocation(x, y+1, name);
         Room tempEast = g.getLocation(x+1, y, name);
         Room tempSouth = g.getLocation(x, y-1, name);
@@ -255,7 +259,7 @@ public class Room {
         }
         if(tempWest instanceof Room){
             west = tempWest;
-        }
+        } */
     }
     public int getX(){
         return x;
@@ -334,5 +338,9 @@ public class Room {
     
     public ArrayList <Item> getContents(){
         return contents;
+    }
+    
+    public ArrayList <Actor> getActorList(){
+        return actorList;
     }
 }
