@@ -15,7 +15,7 @@ public class MapGUI {
         JFrame frame = new JFrame();
         fra = frame;
         frame.setSize(527,550);
-        frame.setTitle( "Graphics Example" );
+        frame.setTitle( "MAP" );
 
         JPanel panel = new JPanel();
         Map graphics = new Map(board);
