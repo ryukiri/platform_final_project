@@ -270,13 +270,19 @@ public class MainGame extends JPanel implements ActionListener {
                     }
                     if(choice.equals(""))
                         return;
-                    int convertedNum = Integer.parseInt(choice);
-                    if(convertedNum>= player.getLocation().getContents().size()){
-                        textArea.append("That item does not exist." + newline);
+                    try{
+                        int convertedNum = Integer.parseInt(choice);
+                        if(convertedNum>= player.getLocation().getContents().size()){
+                            textArea.append("That item does not exist." + newline);
+                        }
+                        else{
+                            textArea.append("You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
+                            player.getLocation().getContents().get(convertedNum).Move(player);
+                        }
                     }
-                    else{
-                        textArea.append("You have picked up " + player.getLocation().getContents().get(convertedNum).getName() + newline);
-                        player.getLocation().getContents().get(convertedNum).Move(player);
+                    catch(NumberFormatException NRE){
+                        textArea.append("Please enter a legit number!");
+                        return;
                     }
 
                 }else if(n == 2){
