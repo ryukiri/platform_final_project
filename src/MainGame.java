@@ -292,28 +292,38 @@ public class MainGame extends JPanel implements ActionListener {
                     }
                     if(choice.equals(""))
                         return;
-                    int convertedNum = Integer.parseInt(choice);
-                    Gear decided = player.getEquipList().get(convertedNum);
-                    if(convertedNum>= player.getEquipList().size()){
-                        textArea.append("That item does not exist." + newline);
-                    }else if(decided instanceof Gear){
-                        player.unequip((Gear) decided);
-                    } 
+                    try {
+                        int convertedNum = Integer.parseInt(choice);
+                        Gear decided = player.getEquipList().get(convertedNum);
+                        if (convertedNum >= player.getEquipList().size()) {
+                            textArea.append("That item does not exist." + newline);
+                        } else if (decided instanceof Gear) {
+                            player.unequip((Gear) decided);
+                        }
+                    }
+                    catch(NumberFormatException NRE){
+                        textArea.append("Please enter a legit number!");
+                        return;
+                    }
                 }else if(n == 3){
                     //Use Button
                     String num = JOptionPane.showInputDialog(frame, "Which item? (number)");
                     if(num == null){
                         return;
                     }
-                    if(num.equals("")){
+                    if(num.equals(""))
                         return;
+                    try {
+                        int convertedNum = Integer.parseInt(num);
+                        if (player.getContents().get(convertedNum) instanceof Item) {
+                            player.getContents().get(convertedNum).use();
+                        } else {
+                            textArea.append("That item does not exist." + newline);
+                        }
                     }
-                    int convertedNum = Integer.parseInt(num);
-                    if(player.getContents().get(convertedNum) instanceof Item){
-                        player.getContents().get(convertedNum).use();                        
-                    }
-                    else{
-                        textArea.append("That item does not exist." + newline);
+                    catch(NumberFormatException NRE){
+                        textArea.append("Please enter a legit number!");
+                        return;
                     }
                 }else if(n == 4){
                     //Use Button
@@ -321,16 +331,20 @@ public class MainGame extends JPanel implements ActionListener {
                     if(num == null){
                         return;
                     }
-                    if(num.equals("")){
+                    if(num.equals(""))
                         return;
+                    try {
+                        int convertedNum = Integer.parseInt(num);
+                        if (player.getContents().get(convertedNum) instanceof Item) {
+                            player.getContents().get(convertedNum).remove();
+                            textArea.append("You have destroyed " + player.getContents().get(convertedNum).getName() + newline);
+                        } else {
+                            textArea.append("That item does not exist." + newline);
+                        }
                     }
-                    int convertedNum = Integer.parseInt(num);
-                    if(player.getContents().get(convertedNum) instanceof Item){
-                        player.getContents().get(convertedNum).remove();
-                        textArea.append("You have destroyed " + player.getContents().get(convertedNum).getName() + newline);
-                    }
-                    else{
-                        textArea.append("That item does not exist." + newline);
+                    catch(NumberFormatException NRE){
+                        textArea.append("Please enter a legit number!");
+                        return;
                     }
                 }
             }
