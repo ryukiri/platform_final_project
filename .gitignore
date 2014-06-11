@@ -12,6 +12,7 @@ nbproject/*
 .idea/
 *.iml
 *.iws
+src/META-INF/
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 

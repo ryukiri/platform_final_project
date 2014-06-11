@@ -42,13 +42,19 @@ public class GameBoard {
         drug = new MedKit(player, -12);
         drug.setName("Poison");
 
+        //Weapons, all in Centauri for testing purposes
         Gun I1I = new Gun(Centauri, "Pistol");
         Saber I1IIl = new Saber(Centauri, "Purple Neon Saber");
         Falcon IlI1 = new Falcon(Centauri, "Bird Who Flies");
         Fork ll1Il = new Fork(Centauri, "The Mighty Fork");
         Bow IIl11ll = new Bow(Centauri, "Brown Shooter");
-        CookingPan IllI1ll = new CookingPan(Centauri, "Mushroom Tomato Cooking Pan");
+        Hammer Ill1 = new Hammer(Centauri, "Doom Da Da");
 
+        //Armor
+        CookingPan IllI1ll = new CookingPan(Centauri, "Mushroom Tomato Cooking Pan");
+        BulletProofVest IIll11ll = new BulletProofVest(Centauri, "Mr. Police Officer");
+        ConstructionHelmet llI1ll = new ConstructionHelmet(Centauri, "Hat");
+        WheelBarrow llI1l1ll = new WheelBarrow(Centauri, "Donkey Kong's Car");
 
         //Dremol
         Room Dremol = new Room(0,-1, this);

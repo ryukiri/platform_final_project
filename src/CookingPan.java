@@ -17,6 +17,7 @@ public class CookingPan extends Weapon{
         a.getStr().setValue(a.getStr().getValue()+55);
         a.getShield().setValue(a.getShield().getValue() + 30);
         a.getShield().setMaxValue(a.getShield().getMaxValue() + 30);
+        a.getDefVal().setValue(a.getDefVal().getValue()+10);
         setRange(0);
     }
 
@@ -25,6 +26,7 @@ public class CookingPan extends Weapon{
         a.getStr().setValue(a.getStr().getValue()-55);
         a.getShield().setValue(a.getShield().getValue() - 30);
         a.getShield().setMaxValue(a.getShield().getMaxValue() - 30);
+        a.getDefVal().setValue(a.getDefVal().getValue()-10);
         setRange(0);
     }
 }
