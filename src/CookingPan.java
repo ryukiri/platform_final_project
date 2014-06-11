@@ -15,7 +15,7 @@ public class CookingPan extends Armor{
     }
 
     public CookingPan(Room r, int dVal){
-        super(r, "mainhand", dVal, dVal+0, "Cooking Pan");
+        super(r, "mainhand", dVal, 0, "Cooking Pan");
         defVal = dVal;
     }
 }

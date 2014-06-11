@@ -15,7 +15,7 @@ public class ConstructionHelmet extends Weapon {
     }
 
     public ConstructionHelmet(Room r, int dVal){
-        super(r, "floor", dVal, dVal+0, "Construction Helment");
+        super(r, "floor", dVal, 0, "Construction Helmet");
         defVal = dVal;
     }
 }

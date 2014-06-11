@@ -55,6 +55,7 @@ public class GameBoard {
         BulletProofVest vest = new BulletProofVest(Centauri, 20);
         ConstructionHelmet helmet = new ConstructionHelmet(Centauri, 7);
         WheelBarrow barrow = new WheelBarrow(Centauri, 15);
+        LightningRod stick = new LightningRod(Centauri, 12);
 
         //Dremol
         Room Dremol = new Room(0,-1, this);

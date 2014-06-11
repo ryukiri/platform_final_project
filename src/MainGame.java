@@ -181,6 +181,7 @@ public class MainGame extends JPanel implements ActionListener {
                         textArea.append(i.getName() + newline);
                         x++;
                     }
+                    textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
                 }
                 else
                     System.out.println("Failed.");
