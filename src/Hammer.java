@@ -2,6 +2,7 @@
  * Created by austin on 6/10/14.
  */
 public class Hammer extends Weapon {
+    private int attackVal;
     public Hammer(Room r, String s){
         super(r, "mainhand", 25, 10);
         setName(s);
@@ -12,19 +13,8 @@ public class Hammer extends Weapon {
         setName(s);
     }
 
-    @Override
-    public void equipEffect(Actor a){
-        a.getAtkVal().setValue(a.getAtkVal().getValue() + 20);
-        a.getAtkVal().setMaxValue(a.getAtkVal().getValue() + 20);
-        a.getStr().setValue(a.getStr().getValue() + 30);
-        setRange(2);
-    }
-
-    @Override
-    public void unequipEffect(Actor a){
-        a.getAtkVal().setValue(a.getAtkVal().getValue() - 20);
-        a.getAtkVal().setMaxValue(a.getAtkVal().getValue() - 20);
-        a.getStr().setValue(a.getStr().getValue() + 30);
-        setRange(0);
+    public Hammer(Room r, int atkVal){
+        super(r, "mainhand", atkVal, atkVal+4, "Hammer");
+        attackVal = atkVal;
     }
 }

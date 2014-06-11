@@ -1,32 +1,21 @@
 /**
  * Created by austin on 6/9/14.
  */
-public class CookingPan extends Weapon{
+public class CookingPan extends Armor{
+    private int defVal;
+
     public CookingPan(Room r, String s){
-        super(r, "mainhand", 0, 0);
+        super(r, "mainhand", 0);
         setName(s);
     }
 
     public CookingPan(Room r, String s, int newValue, int newRange){
-        super(r, "mainhand", newValue, newRange);
+        super(r, "mainhand", newValue);
         setName(s);
     }
 
-    @Override
-    public void equipEffect(Actor a){
-        a.getStr().setValue(a.getStr().getValue()+55);
-        a.getShield().setValue(a.getShield().getValue() + 30);
-        a.getShield().setMaxValue(a.getShield().getMaxValue() + 30);
-        a.getDefVal().setValue(a.getDefVal().getValue()+10);
-        setRange(0);
-    }
-
-    @Override
-    public void unequipEffect(Actor a){
-        a.getStr().setValue(a.getStr().getValue()-55);
-        a.getShield().setValue(a.getShield().getValue() - 30);
-        a.getShield().setMaxValue(a.getShield().getMaxValue() - 30);
-        a.getDefVal().setValue(a.getDefVal().getValue()-10);
-        setRange(0);
+    public CookingPan(Room r, int dVal){
+        super(r, "mainhand", dVal, dVal+0, "Cooking Pan");
+        defVal = dVal;
     }
 }

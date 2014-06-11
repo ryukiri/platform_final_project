@@ -2,6 +2,8 @@
  * Created by austin on 6/10/14.
  */
 public class ConstructionHelmet extends Weapon {
+    private int defVal;
+
     public ConstructionHelmet(Room r, String s){
         super(r, "Head", 0, 0);
         setName(s);
@@ -12,21 +14,8 @@ public class ConstructionHelmet extends Weapon {
         setName(s);
     }
 
-    @Override
-    public void equipEffect(Actor a){
-        a.getStr().setValue(a.getStr().getValue()+25);
-        a.getShield().setValue(a.getShield().getValue() + 9);
-        a.getShield().setMaxValue(a.getShield().getMaxValue() + 9);
-        a.getDefVal().setValue(a.getDefVal().getValue()+1);
-        setRange(0);
-    }
-
-    @Override
-    public void unequipEffect(Actor a){
-        a.getStr().setValue(a.getStr().getValue()-25);
-        a.getShield().setValue(a.getShield().getValue() - 9);
-        a.getShield().setMaxValue(a.getShield().getMaxValue() - 9);
-        a.getDefVal().setValue(a.getDefVal().getValue()-1);
-        setRange(0);
+    public ConstructionHelmet(Room r, int dVal){
+        super(r, "floor", dVal, dVal+0, "Construction Helment");
+        defVal = dVal;
     }
 }

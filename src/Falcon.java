@@ -1,7 +1,9 @@
 /**
  * Created by austin on 6/9/14.
  */
-public class Falcon extends Sword {
+public class Falcon extends Weapon {
+    private int attackVal;
+
     public Falcon(Room r, String s){
         super(r, "mainhand", 25, 10);
         setName(s);
@@ -12,17 +14,8 @@ public class Falcon extends Sword {
         setName(s);
     }
 
-    @Override
-    public void equipEffect(Actor a){
-        a.getCritDamage().setValue(20);
-        System.out.println(a.getCritDamage().getValue() + " Critical Damage");
-        setRange(4);
-    }
-
-    @Override
-    public void unequipEffect(Actor a){
-        a.getCritDamage().setValue(1);
-        System.out.println(a.getCritDamage().getValue() + " Critical Damage");
-        setRange(0);
+    public Falcon(Room r, int atkVal){
+        super(r, "mainhand", atkVal, atkVal+9, "Falcon");
+        attackVal = atkVal;
     }
 }

@@ -23,6 +23,29 @@ public class Weapon extends Gear {
         attackVal = atkVal;
         range = atkRange;
     }
+
+    public Weapon(Room a, String newSlot, int atkVal, int atkRange, String name){
+        super(a, newSlot);
+        attackVal = atkVal;
+        range = atkRange;
+        String ss = "";
+        if(attackVal >=0 && attackVal < 10){
+            ss += "Highly Flammable Aluminum ";
+            setName(name = ss + name);
+        }else if(attackVal >= 10 && attackVal < 20){
+            ss+="Metal Foam ";
+            setName(name = ss + name);
+        }else if(attackVal >= 20 && attackVal < 30){
+            ss += "Carbonized Glass ";
+            setName(name = ss + name);
+        }else if(attackVal >= 30 && attackVal < 40){
+            ss += "Liquid Metal ";
+            setName(name = ss + name);
+        }else if(attackVal >= 40 && attackVal < 50){
+            ss += "Kryptic Hydronized Uranium ";
+            setName(name = ss + name);
+        }
+    }
     
     public int getAttackVal(){
         return attackVal;
