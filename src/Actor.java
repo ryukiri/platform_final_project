@@ -36,6 +36,8 @@ public class Actor {
     private MainGame overLord;
     private String allies;
     private ArrayList <Skill> knownSkills;
+    private ArrayList <Actor> targetedBy;
+    private ArrayList <Actor> opponents;
     private Boolean client;
     private Skill actingSkill;
 
@@ -77,13 +79,12 @@ public class Actor {
         sp = new Stat("Speed", 0, "skill", this);
         baseSp = new Stat("Base Speed", 0, "skill", this);
         momentum = new Stat("Momentum", 0, "skill", this);
-        critDamage = new Stat("Critical Damage", 1, this);
         contents = new ArrayList <Item> ();
         equipList = new ArrayList <Gear> ();
         knownSkills = new ArrayList <Skill> ();
-        Skill s = new Skill(this);
         getHealth().permSet(50 + getCons().getValue()*4 + getLevel().getValue() * 5);
         getStamina().permSet(getStr().getValue()*2 + 25);
+        opponents = new ArrayList <Actor> ();
     }
     
     Room getLocation(){
@@ -269,7 +270,6 @@ public class Actor {
     public Stat getCritModDmg(){
         return critModDmg;
     }
-
     public void update(){
         getSp().permSet(getMomentum().getValue()*4 + getBaseSp().getValue());
         if(overLord instanceof MainGame)
@@ -348,19 +348,102 @@ public class Actor {
         if(client == true){
             String num = JOptionPane.showInputDialog("Which skill? (number)");
             if(num == null){
+                primal();
                 return;
             }
             if(num.equals("")){
+                primal();
                 return;
             }
-            int convertedNum = Integer.parseInt(num);
-            if(knownSkills.get(convertedNum) instanceof Skill){
-                knownSkills.get(convertedNum).ignition();
+            try{
+                int convertedNum = Integer.parseInt(num);
+                if(convertedNum >= knownSkills.size()){
+                    overLord.getTextArea().append("That skill does not exist." + "\n");
+                    primal();
+                    return;
+                }
+                if(knownSkills.get(convertedNum) instanceof Skill){
+                    knownSkills.get(convertedNum).ignition();
+                }
+            }
+            catch(NumberFormatException NRE){
+                primal();
+                return;
+            }
            }
-            
-        }else{
-            System.out.println(actorName + " attacks!");
+        else{
+            knownSkills.get(0).ignition();
         }
+    }
+
+    
+    public Skill getActingSkill(){
+        return actingSkill;
+    }
+    
+    public ArrayList <Actor> getTargetedBy(){
+        return targetedBy;
+    }
+    
+    public ArrayList <Actor> singleTarget(ArrayList <Actor> A){
+        ArrayList <Actor> resultList = new ArrayList <Actor> ();
+        ArrayList <Actor> enemyTeam = A;
+        if(client == true){
+            JTextArea textAreaLocal = overLord.getTextArea();
+            textAreaLocal.append("The following targets are numbered off: ");
+            for(Actor target : enemyTeam){
+                textAreaLocal.append(enemyTeam.lastIndexOf(target) + ". " + target.getName() + "\n");
+            }
+            String reqNum = JOptionPane.showInputDialog("Input target number: ");
+            if(reqNum.equals("") || reqNum == null){
+                return null;
+            }
+            try{
+                int convertedNum = Integer.parseInt(reqNum);
+                if(convertedNum >= enemyTeam.size()){
+                    textAreaLocal.append("That opponent does not exist.");
+                    return null;
+                }
+                else{
+                    resultList.add(enemyTeam.get(convertedNum));
+                }
+            }
+            catch(NumberFormatException NRE){
+                textAreaLocal.append("Please enter numbers and only numbers.");
+                return null;
+            }
+        }else{
+            Actor spec = null;
+            for(Actor target : enemyTeam){
+                spec = target;
+            }
+            resultList.add(spec);
+        }
+        return resultList; 
+    }
+    
+    public ArrayList <Actor> getOpposingTeam(){
+        return opponents;
+    }
+    
+    public void setOpposingTeam(ArrayList <Actor> a){
+        opponents = a;
+    }
+    
+    public Boolean getClient(){
+        return client;
+    }
+    
+    public MainGame getOverLord(){
+        return overLord;
+    }
+    
+    public Boolean hasInitiative(){
+        return initiative;
+    }
+    
+    public void setInitiative(Boolean r){
+        initiative = r;
     }
             
 }
