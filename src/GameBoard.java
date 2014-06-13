@@ -5,11 +5,16 @@ import java.util.*;
  * Gameboard backbone.
  */
 public class GameBoard {
+    private int level;
     private String desc;
     private Actor player;
+    private Actor fast;
+    private Actor faster;
+    private Actor fastest;
     private ArrayList <Room> roomList;
     private String worldName;
     private MainGame mainGame;
+    private Room Centauri;
 
 
     public GameBoard(MainGame q){
@@ -19,15 +24,17 @@ public class GameBoard {
         desc = "You are located in Station Flashpoint.";
         String name = JOptionPane.showInputDialog("Input your name: ");
         player = new Actor(name, mainGame);
-        Actor fast = new Actor("Fast");
+        fast = new Actor("Fast");
         fast.setSpeed(2);
-        Actor faster = new Actor("Faster");
+        faster = new Actor("Faster");
         faster.setSpeed(3);
-        Actor fastest = new Actor("Fastest");
+        fastest = new Actor("Fastest");
         fastest.setSpeed(4);
 
+        level = player.getLevel().getValue();
+
         //Centauri
-        Room Centauri = new Room(6,0,this, "CEN");
+        Centauri = new Room(6,0,this, "CEN");
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
         player.move(Centauri);
@@ -35,20 +42,21 @@ public class GameBoard {
         faster.move(Centauri);
         fastest.move(Centauri);
         spawnRandomDungeon(Centauri);
-        Sword S = new Sword(Centauri, "Super Adventure Sword");
         //spawnLinearDungeon(Centauri);
+
+        Sword S = new Sword(Centauri, "Super Adventure Sword");
         Item drug = new MedKit(player, 12);
         drug.setName("Potion");
         drug = new MedKit(player, -12);
         drug.setName("Poison");
 
         //Weapons, all in Centauri for testing purposes
-        Gun gun = new Gun(Centauri, 1);
-        Saber saber = new Saber(Centauri, 6);
-        Falcon falcon = new Falcon(Centauri, 10);
-        Fork fork = new Fork(Centauri, 0);
-        Bow bow = new Bow(Centauri, 9);
-        Hammer hammer = new Hammer(Centauri, 8);
+        Gun gun = new Gun(Centauri, 1, level);
+        Saber saber = new Saber(Centauri, 6, level);
+        Falcon falcon = new Falcon(Centauri, 10, level);
+        Fork fork = new Fork(Centauri, 0, level);
+        Bow bow = new Bow(Centauri, 9, level);
+        Hammer hammer = new Hammer(Centauri, 8, level);
 
         //Armor
         CookingPan pan = new CookingPan(Centauri, 10);
@@ -151,7 +159,7 @@ public class GameBoard {
             System.out.println(r.getExits());
         }
     }
-    
+
     public Room getLocation(int productX, int productY, String name){
         for(Room stack : roomList){
             if(!stack.getName().equals(name)){

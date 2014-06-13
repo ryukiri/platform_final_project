@@ -14,8 +14,8 @@ public class Falcon extends Weapon {
         setName(s);
     }
 
-    public Falcon(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+9, "Falcon");
+    public Falcon(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+9, "Falcon", lv);
         attackVal = atkVal;
     }
 }

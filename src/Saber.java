@@ -14,8 +14,8 @@ public class Saber extends Weapon {
         setName(s);
     }
 
-    public Saber(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+10, "Saber");
+    public Saber(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+10, "Saber", lv);
         attackVal = atkVal;
     }
 }

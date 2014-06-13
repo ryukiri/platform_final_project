@@ -14,8 +14,8 @@ public class Bow extends Weapon {
         setName(s);
     }
 
-    public Bow(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+21, "Saber");
+    public Bow(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+21, "Saber", lv);
         attackVal = atkVal;
     }
 }

@@ -14,8 +14,8 @@ public class Fork extends Weapon{
         setName(s);
     }
 
-    public Fork(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+0, "Saber");
+    public Fork(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+0, "Saber", lv);
         attackVal = atkVal;
     }
 }

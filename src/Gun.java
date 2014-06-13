@@ -14,8 +14,8 @@ public class Gun extends Weapon {
         setName(s);
     }
 
-    public Gun(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+30, "Gun");
+    public Gun(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+30, "Gun", lv);
         attackVal = atkVal;
     }
 }

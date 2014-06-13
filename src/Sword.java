@@ -21,8 +21,8 @@ public class Sword extends Weapon{
         setName(s);
     }
 
-    public Sword(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+3, "Sword");
+    public Sword(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+3, "Sword", lv);
         attackVal = atkVal;
     }
 }

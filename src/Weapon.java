@@ -9,6 +9,9 @@
  * @author DuncanSkyrim
  */
 public class Weapon extends Gear {
+    private GameBoard gameBoard;
+    private MainGame mainGame;
+    private Actor actor;
     private int attackVal;
     private int range;
     
@@ -24,10 +27,11 @@ public class Weapon extends Gear {
         range = atkRange;
     }
 
-    public Weapon(Room a, String newSlot, int atkVal, int atkRange, String name){
+    public Weapon(Room a, String newSlot, int atkVal, int atkRange, String name, int level){
         super(a, newSlot);
-        attackVal = atkVal;
         range = atkRange;
+        getRanNum(atkVal, level);
+
         String ss = "";
         if(attackVal >=0 && attackVal < 10){
             ss += "Highly Flammable Aluminum ";
@@ -48,6 +52,13 @@ public class Weapon extends Gear {
             ss += "Radioactive Wooden Calcium Dilithium ";
             setName(name = ss + name);
         }
+    }
+
+    private void getRanNum(int atk, int lv){
+        int y = (int)(Math.random()*10);
+        int x = (atk+lv+y)/2;
+
+        attackVal = x;
     }
     
     public int getAttackVal(){

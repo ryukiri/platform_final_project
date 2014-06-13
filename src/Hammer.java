@@ -13,8 +13,8 @@ public class Hammer extends Weapon {
         setName(s);
     }
 
-    public Hammer(Room r, int atkVal){
-        super(r, "mainhand", atkVal, atkVal+4, "Hammer");
+    public Hammer(Room r, int atkVal, int lv){
+        super(r, "mainhand", atkVal, atkVal+4, "Hammer", lv);
         attackVal = atkVal;
     }
 }
