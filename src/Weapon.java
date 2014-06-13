@@ -44,6 +44,9 @@ public class Weapon extends Gear {
         }else if(attackVal >= 40 && attackVal < 50){
             ss += "Kryptic Hydronized Uranium ";
             setName(name = ss + name);
+        }else if(attackVal >=50 && attackVal < 60){
+            ss += "Radioactive Wooden Calcium Dilithium ";
+            setName(name = ss + name);
         }
     }
     
