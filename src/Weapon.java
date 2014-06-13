@@ -56,9 +56,11 @@ public class Weapon extends Gear {
 
     private void getRanNum(int atk, int lv){
         int y = (int)(Math.random()*10);
-        int x = (atk+lv+y)/2;
+        int x = (atk+(lv*y)+y)/2;
 
         attackVal = x;
+        System.out.println("y= " + y);
+        System.out.println("attack value: " + attackVal);
     }
     
     public int getAttackVal(){
