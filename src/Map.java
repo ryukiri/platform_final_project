@@ -48,8 +48,15 @@ public class Map extends JComponent {
                         g2.fillRect( sRow, sColumn, 30,30);
                         g2.setColor( Color.RED );
                         g2.drawRect( sRow, sColumn, 30,30);
-                        g2.setColor( Color.BLACK );
-                        g2.drawString("P", sRow + 12, sColumn +20);
+                        //g2.setColor( Color.BLACK );
+                        //g2.drawString("P", sRow + 12, sColumn +20);
+                        try {
+                            img = ImageIO.read(new File("android.png"));
+                        } catch (IOException ex) {
+                            Logger.getLogger(GraphicComponent.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        super.paintComponent(g);
+                        g.drawImage(img, sRow, sColumn, this);
                     }
                     else if(testRoom.hasExplored()){
                         g2.setColor( Color.WHITE );
