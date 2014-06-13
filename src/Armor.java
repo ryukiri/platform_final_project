@@ -17,11 +17,12 @@ public class Armor extends Gear {
         range = 0;
     }
 
-    public Armor(Room a, String newSlot, int dVal, int dRange, String name){
+    public Armor(Room a, String newSlot, int dVal, int dRange, String name, int level){
         super(a, newSlot);
-        defVal = dVal;
         range = dRange;
         String ss = "";
+        getRanNum(dVal, level);
+
         if(dVal >=0 && dVal < 10){
             ss += "Titanium Plastic ";
             setName(name = ss + name);
@@ -37,7 +38,18 @@ public class Armor extends Gear {
         }else if(dVal >= 40 && dVal < 50){
             ss += "Xenon Chromatized Lead ";
             setName(name = ss + name);
+        }else if(dVal >= 50){
+            ss+="Computerized mechanical aluminum ";
         }
+    }
+
+    private void getRanNum(int def, int lv){
+        int y = (int)(Math.random()*5);
+        int x = (def+(lv*y)+y)/2;
+
+        defVal = x;
+        System.out.println("y= " + y);
+        System.out.println("defense value: " + defVal);
     }
 
     public int getDefVal(){

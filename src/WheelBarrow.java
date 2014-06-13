@@ -15,8 +15,8 @@ public class WheelBarrow extends Armor {
         setName(s);
     }
 
-    public WheelBarrow(Room r, int dVal){
-        super(r, "floor", dVal, dVal+3, "Wheel Barrow");
+    public WheelBarrow(Room r, int dVal, int level){
+        super(r, "floor", dVal, dVal+3, "Wheel Barrow", level);
         defVal = dVal;
     }
 }

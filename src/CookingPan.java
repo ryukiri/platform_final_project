@@ -14,8 +14,8 @@ public class CookingPan extends Armor{
         setName(s);
     }
 
-    public CookingPan(Room r, int dVal){
-        super(r, "mainhand", dVal, 0, "Cooking Pan");
+    public CookingPan(Room r, int dVal, int level){
+        super(r, "mainhand", dVal, 0, "Cooking Pan", level);
         defVal = dVal;
     }
 }

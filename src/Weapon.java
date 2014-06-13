@@ -48,14 +48,14 @@ public class Weapon extends Gear {
         }else if(attackVal >= 40 && attackVal < 50){
             ss += "Kryptic Hydronized Uranium ";
             setName(name = ss + name);
-        }else if(attackVal >=50 && attackVal < 60){
+        }else if(attackVal >=50){
             ss += "Radioactive Wooden Calcium Dilithium ";
             setName(name = ss + name);
         }
     }
 
     private void getRanNum(int atk, int lv){
-        int y = (int)(Math.random()*10);
+        int y = (int)(Math.random()*5);
         int x = (atk+(lv*y)+y)/2;
 
         attackVal = x;

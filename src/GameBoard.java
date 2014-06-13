@@ -44,13 +44,14 @@ public class GameBoard {
         spawnRandomDungeon(Centauri);
         //spawnLinearDungeon(Centauri);
 
-        Sword S = new Sword(Centauri, "Super Adventure Sword");
+
         Item drug = new MedKit(player, 12);
         drug.setName("Potion");
         drug = new MedKit(player, -12);
         drug.setName("Poison");
 
         //Weapons, all in Centauri for testing purposes
+        Sword sword = new Sword(Centauri, 3, level);
         Gun gun = new Gun(Centauri, 1, level);
         Saber saber = new Saber(Centauri, 6, level);
         Falcon falcon = new Falcon(Centauri, 10, level);
@@ -59,11 +60,11 @@ public class GameBoard {
         Hammer hammer = new Hammer(Centauri, 8, level);
 
         //Armor
-        CookingPan pan = new CookingPan(Centauri, 10);
-        BulletProofVest vest = new BulletProofVest(Centauri, 20);
-        ConstructionHelmet helmet = new ConstructionHelmet(Centauri, 7);
-        WheelBarrow barrow = new WheelBarrow(Centauri, 15);
-        LightningRod stick = new LightningRod(Centauri, 12);
+        CookingPan pan = new CookingPan(Centauri, 10, level);
+        BulletProofVest vest = new BulletProofVest(Centauri, 20, level);
+        ConstructionHelmet helmet = new ConstructionHelmet(Centauri, 7, level);
+        WheelBarrow barrow = new WheelBarrow(Centauri, 15, level);
+        LightningRod stick = new LightningRod(Centauri, 12, level);
 
         //Dremol
         Room Dremol = new Room(0,-1, this);

@@ -14,8 +14,8 @@ public class LightningRod extends Armor {
         setName(s);
     }
 
-    public LightningRod(Room r, int dVal){
-        super(r, "backpack", dVal, 0, "Lightning Rod");
+    public LightningRod(Room r, int dVal, int level){
+        super(r, "backpack", dVal, 0, "Lightning Rod", level);
         defVal = dVal;
     }
 }

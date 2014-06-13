@@ -14,8 +14,8 @@ public class BulletProofVest extends Armor{
         setName(s);
     }
 
-    public BulletProofVest(Room r, int dVal){
-        super(r, "chest", dVal, 0, "Bullet Proof Vest");
+    public BulletProofVest(Room r, int dVal, int level){
+        super(r, "chest", dVal, 0, "Bullet Proof Vest", level);
         defVal = dVal;
     }
 }
