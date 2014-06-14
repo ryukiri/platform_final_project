@@ -153,8 +153,7 @@ public class Room {
             
         }
     }
-            
-    
+
     public Room(GameBoard g, String newSymbol){
         x = 0;
         y = 0;
@@ -162,7 +161,11 @@ public class Room {
         symbol = newSymbol;
         actorList = new ArrayList <Actor> ();
     }
-    
+/*
+    public void placeItems(){
+        parentBoard.putItems();
+    }
+  */
     public GameBoard getGameBoard(){
         return parentBoard;
     }
@@ -178,7 +181,6 @@ public class Room {
     public String getSymbol(){
         return symbol;
     }
-    
     
     public Room getNorth(){
         return north;
@@ -261,6 +263,7 @@ public class Room {
             west = tempWest;
         } */
     }
+
     public int getX(){
         return x;
     }

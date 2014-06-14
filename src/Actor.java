@@ -1,6 +1,6 @@
 import java.util.*;
 import javax.swing.*;
-public class Actor {
+public class Actor{
     private String actorName;
     private Stat level;
     private Stat health;
@@ -362,5 +362,4 @@ public class Actor {
             System.out.println(actorName + " attacks!");
         }
     }
-            
 }

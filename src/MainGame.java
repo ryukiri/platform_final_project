@@ -125,6 +125,9 @@ public class MainGame extends JPanel implements ActionListener {
         if(event.getSource() instanceof JButton) {
 
             if (source == moveButton) {
+                //mainBoard.putItems();
+                //System.out.print("Location " + mainBoard.getPlayer().getLocation().getName());
+                //mainBoard.getPlayer().getLocation().placeItems();
                 /**Custom Button Text
                  * Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
                  * http://stackoverflow.com/questions/1257420/making-a-joptionpane-with-4-options
