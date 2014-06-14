@@ -1,14 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author DuncanSkyrim
- */
-
 import java.util.*;
 public class BattleAdmin {
     private ArrayList <Actor> teamA;
@@ -20,13 +9,20 @@ public class BattleAdmin {
         teamB = new ArrayList <Actor>();
         location = r;
         for(Actor a : location.getActorList()){
+            Offense x = new Offense(a);
             if(a.isFrozen() == false)
                 a.setFrozen();
-            if(a.getAllies() == null || a.getAllies().equals("player")){
+            if(a.getAllies() == null || !a.getAllies().equals("player")){
                 teamA.add(a);
             }
             else
                 teamB.add(a);            
+        }
+        for(Actor a: teamA){
+            a.setOpposingTeam(teamB);
+        }
+        for(Actor a : teamB){
+            a.setOpposingTeam(teamA);
         }
         turnActive();
     }
@@ -36,6 +32,7 @@ public class BattleAdmin {
         for(Actor a : orderedList){
             System.out.println(a.getName() + orderedList.lastIndexOf(a));
             a.primal();
+            a.getActingSkill().activate(a.getOpposingTeam());
         }
     }
     
