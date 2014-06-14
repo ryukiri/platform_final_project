@@ -50,24 +50,6 @@ public class GameBoard {
         drug = new MedKit(player, -12);
         drug.setName("Poison");
 
-        //Weapons, all in Centauri for testing purposes
-        //Sword sword = new Sword(Centauri, 3, level);
-        //Gun gun = new Gun(Centauri, 1, level);
-        //Saber saber = new Saber(Centauri, 6, level);
-        //Falcon falcon = new Falcon(Centauri, 10, level);
-        //Fork fork = new Fork(Centauri, 0, level);
-        //Bow bow = new Bow(Centauri, 9, level);
-        //Hammer hammer = new Hammer(Centauri, 8, level);
-
-        //putItems();
-
-        //Armor
-        //CookingPan pan = new CookingPan(Centauri, 10, level);
-        //BulletProofVest vest = new BulletProofVest(Centauri, 20, level);
-        //ConstructionHelmet helmet = new ConstructionHelmet(Centauri, 7, level);
-        //WheelBarrow barrow = new WheelBarrow(Centauri, 15, level);
-        //LightningRod stick = new LightningRod(Centauri, 12, level);
-
         roomList.add(Centauri);
 
         for(Room r : roomList){
