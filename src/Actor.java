@@ -270,6 +270,7 @@ public class Actor{
     public Stat getCritModDmg(){
         return critModDmg;
     }
+
     public void update(){
         getSp().permSet(getMomentum().getValue()*4 + getBaseSp().getValue());
         if(overLord instanceof MainGame)

@@ -15,7 +15,7 @@ public class GameBoard {
     private String worldName;
     private MainGame mainGame;
     private Room Centauri;
-    private Room MedicalBay;
+    private Room temp;
     private Item drug;
 
 
@@ -49,6 +49,7 @@ public class GameBoard {
         drug.setName("Potion");
         drug = new MedKit(player, -12);
         drug.setName("Poison");
+
         //Weapons, all in Centauri for testing purposes
         //Sword sword = new Sword(Centauri, 3, level);
         //Gun gun = new Gun(Centauri, 1, level);
@@ -68,20 +69,6 @@ public class GameBoard {
         //LightningRod stick = new LightningRod(Centauri, 12, level);
 
         roomList.add(Centauri);
-        /*roomList.add(Dremol);
-        roomList.add(Vionla);
-        roomList.add(Caljack);
-        roomList.add(Tythis);
-        roomList.add(Itghones);
-        roomList.add(Nuqueroth);
-        roomList.add(Swathwaite);
-        roomList.add(Bludown);
-        roomList.add(Sldenser);
-        roomList.add(Thusdale);
-        roomList.add(Eweworth);
-        roomList.add(Astoudown);
-        roomList.add(Helgrove);
-        roomList.add(Floupond);*/
 
         for(Room r : roomList){
             System.out.println(r.getName() + " " + r.getCoordinates());
@@ -101,6 +88,74 @@ public class GameBoard {
             }
         }
         return null;
+    }
+
+    public void addItem(){
+        for(Room box : roomList){
+            if(box.equals("Medical Bay")){
+                drug = new MedKit(box, 12);
+                drug.setName("Potion");
+                drug = new MedKit(box, 1);
+                drug.setName("Potion");
+                drug = new MedKit(box, 10);
+                drug.setName("Potion");
+                drug = new MedKit(box, -12);
+                drug.setName("Poison");
+                drug = new MedKit(box, -12);
+                drug.setName("Poison");
+            }else if(box.getName().equals("Kitchen")){
+                Fork fork = new Fork(box, 6, level);
+                CookingPan pan = new CookingPan(box, 10, level);
+            }else if(box.getName().equals("Abandoned Barracks")){
+                BulletProofVest vest = new BulletProofVest(box, 20, level);
+                WheelBarrow barrow = new WheelBarrow(box, 15, level);
+            }else if(box.getName().equals("Lodging Area")){
+                LightningRod stick = new LightningRod(box, 12, level);
+            }else if(box.getName().equals("Storage Room")){
+                ConstructionHelmet helmet = new ConstructionHelmet(box, 7, level);
+            }else if(box.getName().equals("Repairs and Logistics")){
+                ConstructionHelmet helmet = new ConstructionHelmet(box, 7, level);
+            }else if(box.getName().equals("Engine Room")){
+                ConstructionHelmet helmet = new ConstructionHelmet(box, 7, level);
+            }else if(box.getName().equals("Research and Development")){
+                Sword sword = new Sword(box, 3, level);
+            }else if(box.getName().equals("Jail")){
+                Falcon falcon = new Falcon(box, 10, level);
+                drug = new MedKit(box, -22);
+                drug.setName("Poison");
+                drug = new MedKit(box, -32);
+                drug.setName("Poison");
+            }else if(box.getName().equals("Centauri")){
+                drug = new MedKit(box, -22);
+                drug.setName("Poison");
+            }else if(box.getName().equals("Waste Management Facility")){
+
+            }else if(box.getName().equals("Emergency Space Shuttles")){
+
+            }else if(box.getName().equals("Co-Captain Room")){
+
+            }else if(box.getName().equals("Captain Room")){
+                Hammer hammer = new Hammer(box, 8, level);
+            }else if(box.getName().equals("Main Deck")) {
+                Saber saber = new Saber(box, 6, level);
+            }else if(box.getName().equals("Shower Room")) {
+
+            }else if(box.getName().equals("Kitchen")) {
+                Fork fork = new Fork(box, 6, level);
+                CookingPan pan = new CookingPan(box, 10, level);
+            }else if(box.getName().equals("Dinning Room")) {
+                Fork fork = new Fork(box, 0, level);
+                fork = new Fork(box, 3, level);
+                fork = new Fork(box, 1, level);
+            }else if(box.getName().equals("Weapon Storage Room")) {
+                Bow bow = new Bow(box, 9, level);
+                Gun gun = new Gun(box, 1, level);
+            }else if(box.getName().equals("Superconductivity Plant")){
+                ConstructionHelmet helmet = new ConstructionHelmet(box, 7, level);
+                BulletProofVest vest = new BulletProofVest(box, 20, level);
+            }
+        }
+
     }
 
     //Experimental: returns true if there is a room there
@@ -180,7 +235,7 @@ public class GameBoard {
             roomList.add(rightRoom);
             roomList.add(leftRoom);
 
-            if(spawnRoom.getName().equals("Medical Bay")) {
+            /*if(spawnRoom.getName().equals("Medical Bay")) {
                 drug = new MedKit(spawnRoom, 12);
                 drug.setName("Potion");
                 drug = new MedKit(spawnRoom, 1);
@@ -364,7 +419,7 @@ public class GameBoard {
                 ConstructionHelmet helmet = new ConstructionHelmet(rightRoom, 7, level);
                 BulletProofVest vest = new BulletProofVest(rightRoom, 20, level);
             }
-
+            */
 
             int randomNum = (int) ((Math.random()*2)+1);
             int pick = (int) ((Math.random()*2) + 1);
@@ -382,6 +437,8 @@ public class GameBoard {
                     x -= randomNum;
             }
         }
+
+        addItem();
     } 
     public void addRoom(Room r){
         roomList.add(r);

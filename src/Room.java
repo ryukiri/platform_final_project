@@ -161,11 +161,7 @@ public class Room {
         symbol = newSymbol;
         actorList = new ArrayList <Actor> ();
     }
-/*
-    public void placeItems(){
-        parentBoard.putItems();
-    }
-  */
+
     public GameBoard getGameBoard(){
         return parentBoard;
     }
