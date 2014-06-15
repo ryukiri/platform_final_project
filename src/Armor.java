@@ -4,6 +4,7 @@
 public class Armor extends Gear {
     private int defVal;
     private int range;
+    private int tempVal;
 
     public Armor(Actor a, String newSlot, int dVal){
         super(a, newSlot);
@@ -62,17 +63,16 @@ public class Armor extends Gear {
 
     @Override
     public void equipEffect(Actor a){
-        a.getDefVal().setValue(a.getDefVal().getValue() + process(a, defVal));
-        //a.getDefVal().setMaxValue(a.getDefVal().getMaxValue() + process(a, defVal) + process(a, range));
+        tempVal = a.getDefVal().getValue();
+        a.getDefVal().setValue(a.getDefVal().getValue() + defVal);
     }
     @Override
     public void unequipEffect(Actor a){
-        a.getDefVal().setValue(a.getDefVal().getValue() - process(a, defVal));
-        //a.getDefVal().setMaxValue(a.getDefVal().getMaxValue() -  process(a, defVal) - process(a, range));
+        a.getDefVal().setValue(a.getDefVal().getValue() - defVal);
     }
 
     public int process(Actor a, int x){
-        System.out.println((double) a.getStr().getValue()/20 + " strength modifier");
+        //System.out.println((double) a.getStr().getValue()/20 + " strength modifier");
         return (int) (x * (1 + (double) a.getStr().getValue()/20 ));
     }
 }
