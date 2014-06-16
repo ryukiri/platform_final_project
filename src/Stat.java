@@ -70,6 +70,10 @@ public class Stat {
     }
 
     public void permAdd(int x){
+        if(value + x < 0){
+            value = 0;
+            maxValue = 0;
+        }
         value+=x;
         maxValue+=x;
         owner.update();
@@ -105,6 +109,12 @@ public class Stat {
     public void permSet(int n){
         value = n;
         maxValue = n;
+    }
+    
+    public void permSetUp(int n){
+        value = n;
+        maxValue = n;
+        owner.update();
     }
     
     public void permMax(int n){
