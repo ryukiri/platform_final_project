@@ -20,4 +20,15 @@ public class Defense extends Skill{
         mainField = getUser().getLocation().getGameBoard().getMainGame().getTextArea();
     }
     
+     public void activate(ArrayList <Actor> a){
+         mainField.append(getUser().getName() + " takes a defensive stance." + "\n");
+         ArrayList <Actor> removeList = getUser().getTargetedBy();
+         for(Actor attacker : getUser().getTargetedBy()){
+             vsOffense((Offense) attacker.getActingSkill());
+         }
+     }
+     
+     public void vsOffense(Offense opposingSkill){
+     }
+    
 }
