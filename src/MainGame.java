@@ -80,7 +80,6 @@ public class MainGame extends JPanel implements ActionListener {
         playerAtkVal = new JLabel(mainBoard.getPlayer().atkVal());
         playerDefVal = new JLabel(mainBoard.getPlayer().defVal());
         textArea.append("Use the observe button to look around" + newline);
-        
     }
 
     public MainGame(int x){
