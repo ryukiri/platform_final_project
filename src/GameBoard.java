@@ -25,30 +25,43 @@ public class GameBoard {
         roomList = new ArrayList <Room> ();
         desc = "You are located in Station Flashpoint.";
         String name = JOptionPane.showInputDialog("Input your name: ");
-        player = new Actor(name, mainGame);
-        fast = new Actor("Fast");
-        fast.setSpeed(2);
-        faster = new Actor("Faster");
-        faster.setSpeed(3);
-        fastest = new Actor("Fastest");
-        fastest.setSpeed(4);
-
-        level = player.getLevel().getValue();
+//public Sword (Room r, String s, int newValue, int newRange){
 
         //Centauri
         Centauri = new Room(6,0,this, "CEN");
         Centauri.setName("Centauri");
         Centauri.setDesc("A darkened docking bay stretches out in front of you, littered by dormant ships and shuttles.");
+        player = new Actor(name, mainGame, Centauri);
+        fast = new Actor("Fast", Centauri);
         player.move(Centauri);
         fast.move(Centauri);
-        faster.move(Centauri);
-        fastest.move(Centauri);
+        fast.setSpeed(1);
+        level = player.getLevel().getValue();
         spawnRandomDungeon(Centauri);
 
         drug = new MedKit(player, 12);
         drug.setName("Potion");
         drug = new MedKit(player, -12);
         drug.setName("Poison");
+        Sword superSword = new Sword(Centauri, "Blasting Wand", 2, 34);
+
+        //Weapons, all in Centauri for testing purposes
+        //Sword sword = new Sword(Centauri, 3, level);
+        //Gun gun = new Gun(Centauri, 1, level);
+        //Saber saber = new Saber(Centauri, 6, level);
+        //Falcon falcon = new Falcon(Centauri, 10, level);
+        //Fork fork = new Fork(Centauri, 0, level);
+        //Bow bow = new Bow(Centauri, 9, level);
+        //Hammer hammer = new Hammer(Centauri, 8, level);
+
+        //putItems();
+
+        //Armor
+        //CookingPan pan = new CookingPan(Centauri, 10, level);
+        //BulletProofVest vest = new BulletProofVest(Centauri, 20, level);
+        //ConstructionHelmet helmet = new ConstructionHelmet(Centauri, 7, level);
+        //WheelBarrow barrow = new WheelBarrow(Centauri, 15, level);
+        //LightningRod stick = new LightningRod(Centauri, 12, level);
 
         roomList.add(Centauri);
 
