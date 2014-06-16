@@ -1,15 +1,24 @@
 import java.util.*;
+import javax.swing.JTextArea;
 public class BattleAdmin {
     private ArrayList <Actor> teamA;
     private ArrayList <Actor> teamB;
     private Room location;
+    private JTextArea mainField;
     
-    public BattleAdmin(Room r){
+    public BattleAdmin(Room r, JTextArea J){
         teamA = new ArrayList <Actor>();
         teamB = new ArrayList <Actor>();
         location = r;
+        mainField = J;
         for(Actor a : location.getActorList()){
-            Offense x = new Offense(a);
+            Basic x = new Basic(a);
+            Dodge d = new Dodge(a);
+            a.setFlinch(0);
+            a.setSpacing(0);
+            for(Debuff det : a.getDebuffs())
+                det.extinguish();
+            a.getMomentum().permSetUp(0);
             if(a.isFrozen() == false)
                 a.setFrozen();
             if(a.getAllies() == null || !a.getAllies().equals("player")){
@@ -24,16 +33,40 @@ public class BattleAdmin {
         for(Actor a : teamB){
             a.setOpposingTeam(teamA);
         }
-        turnActive();
+        turnActive(0);
     }
     
-    public void turnActive(){
+    public void turnActive(int recursionVal){
+        recursionVal++;
+        mainField.append("Round " + recursionVal + "\n");
         ArrayList <Actor> orderedList = rollCall();
+        for(Actor a: orderedList){
+            mainField.append(a.getName() + " is standing on space " + a.getSpacing() + " with " + a.getHealth().getDisplay() + " Health and " + a.getStamina().getDisplay() + " stamina." + a.getSp().getDisplay() + "speed" + "\n" );
+        }
         for(Actor a : orderedList){
             System.out.println(a.getName() + orderedList.lastIndexOf(a));
             a.primal();
             a.getActingSkill().activate(a.getOpposingTeam());
         }
+        for(Actor a : orderedList){
+            ArrayList <Actor> newList = new ArrayList <Actor> ();
+            a.setTargetedBy(newList);
+            Skill s = a.getActingSkill();
+            System.out.println("Checked in");
+            if(s instanceof Offense){
+                System.out.println("Checked out");
+                Offense o = (Offense) a.getActingSkill();
+                for(Actor target : o.getTargets())
+                    o.damageScene(target);
+            }
+            for(Debuff det : a.getDebuffs()){
+                if(det.getName().equals("stagger")){
+                    det.extinguish();
+                }
+                det.turnPass();
+            }
+        }
+        turnActive(recursionVal);
     }
     
     public ArrayList <Actor> rollCall(){ //insertion sort! rah! the complexity!
