@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+import javax.swing.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
@@ -12,12 +14,20 @@ import javax.swing.JTextArea;
  *
  * @author 15ShepherdDuncan
  */
-import javax.swing.*;
-public class Basic extends Offense {
+public class Basic extends SingleTarget{
     private String triangle;
     
     public Basic(Actor a){
         super(a);
+    }
+    
+    public String getTriangle(){
+        return triangle;
+    }
+    
+    public void activate(ArrayList <Actor> a){
+        super.activate(a);
+                
     }
     
     public void setTriangleResp(){
@@ -75,12 +85,45 @@ public class Basic extends Offense {
        
    }
    
+    @Override
    public void vsOffense(){
         Offense opposingSkill = (Offense) getOpposingSkill();
+        Offense first = opposingSkill;
+        Offense second = this;
+        if(getUser().hasInitiative()){
+            super.vsOffense();
+            return;
+        }
         if(opposingSkill instanceof Basic){
             Basic opposingBasic = (Basic) opposingSkill;
+            first = opposingBasic;
             setTriangleResp();
+            if(opposingBasic.getTriangle().equals("True") && triangle.equals("Counter")){
+                first = this;
+                second = opposingBasic;
+                getMainField().append(getUser().getName() + "'s counters " + getOpposingSkill().getUser().getName() +"'s attack! ");
+            }
+            if(opposingBasic.getTriangle().equals("Feint")){
+                if(triangle.equals("True")){
+                    first = this;
+                    second = opposingBasic;
+                    getMainField().append(getUser().getName() + " overwhelms " + getOpposingSkill().getUser().getName() +"'s feint with a true attack! ");
+                }
+                if(triangle.equals("Counter")){
+                    getMainField().append(getUser().getName() + "'s counter fails against " + getOpposingSkill().getUser().getName() +"'s feint! ");
+                }
+            }
+            first.damageScene(second.getUser());
+            second.damageScene(first.getUser());
         }
+        else{
+            super.vsOffense();
+        }
+   }
+   
+   public void vsDefense(){
+       setTriangleState();
+       super.vsDefense();
    }
     
 }
