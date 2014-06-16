@@ -31,24 +31,37 @@ public class Actor{
     private Room location;
     private ArrayList <Item> contents;
     private ArrayList <Gear> equipList;
-    private Boolean initiative;
+    private Boolean initiative = false;
     private Boolean freeze = false;
     private MainGame overLord;
+    private GameBoard land;
     private String allies;
     private ArrayList <Skill> knownSkills;
     private ArrayList <Actor> targetedBy;
     private ArrayList <Actor> opponents;
+    private ArrayList <Debuff> debuffs;
     private Boolean client;
     private Skill actingSkill;
+    private int spacing;
+    private int flinchMeter;
+    
+    
+    //debuffs
+    private Debuff cripple;
+    private Debuff stagger;
+    private Debuff bleeding;
+    private Debuff stamPoison;
 
-    public Actor(String newName){
+    public Actor(String newName, Room r){
+        location = r;
         actorName = newName;
         initStats();
         update();
         client = false;
     }
 
-    public Actor(String newName, MainGame q){
+    public Actor(String newName, MainGame q, Room r){
+        location = r;
         actorName = newName;
         initStats();
         update();
@@ -69,7 +82,7 @@ public class Actor{
         shield = new Stat("Shield", 0, this);
         xp = new Stat("Experience", 0, 0, "xp", this);
         fin = new Stat("Finesse", 0, "skill", this);
-        agil = new Stat("Agility",0, "skill", this);
+        agil = new Stat("Agility",12, "skill", this);
         str = new Stat("Strength", 4, "skill", this);
         cons = new Stat("Constitution",0, "skill", this);
         res = new Stat("Resistance",0, "skill", this);
@@ -79,15 +92,43 @@ public class Actor{
         sp = new Stat("Speed", 0, "skill", this);
         baseSp = new Stat("Base Speed", 0, "skill", this);
         momentum = new Stat("Momentum", 0, "skill", this);
+        critChance = new Stat("Critical Chance", 0, "skill", this);
+        critDamage = new Stat("Critical Damage", 0, "skill", this);
         contents = new ArrayList <Item> ();
         equipList = new ArrayList <Gear> ();
         knownSkills = new ArrayList <Skill> ();
         getHealth().permSet(50 + getCons().getValue()*4 + getLevel().getValue() * 5);
         getStamina().permSet(getStr().getValue()*2 + 25);
         opponents = new ArrayList <Actor> ();
+        targetedBy = new ArrayList <Actor> ();
+        debuffs = new ArrayList <Debuff> ();
+        
+        //public Debuff(String s, Actor a, Stat st, Boolean curseOrNot){
+        cripple = new Debuff("cripple", this, baseSp, true);
+        bleeding = new Debuff("bleeding", this, health, false);
+        stagger = new Debuff("stagger", this, baseSp, true);
+        stamPoison = new Debuff("poison", this, stamina, false);
+        
+        debuffs.add(cripple);
+        debuffs.add(bleeding);
+        debuffs.add(stagger);
+        debuffs.add(stamPoison);      
+        
     }
     
-    Room getLocation(){
+    public ArrayList <Actor> getTargetedBy(){
+        return targetedBy;
+    }
+    
+    public void addAttacker(Actor a){
+        targetedBy.add(a);
+    }
+    
+    public void setTargetedBy(ArrayList <Actor> a){
+        targetedBy = a;
+    }
+    
+    public Room getLocation(){
         return location;
     }
     
@@ -321,7 +362,7 @@ public class Actor{
             }           
         }
         if(x != 0 ){
-            BattleAdmin battle = new BattleAdmin(b);
+            BattleAdmin battle = new BattleAdmin(b, overLord.getTextArea());
         }
     }
     
@@ -342,11 +383,21 @@ public class Actor{
     
     public void setActingSkill(Skill s){
         actingSkill = s;
-        System.out.println(actingSkill.getName());
+        System.out.println("setup");
     }
     
     public void primal(){
+        if(stagger.getTrigger() == true){
+            return;
+        }
         if(client == true){
+            overLord.getTextArea().append("Skills available:" + "\n");
+            int x = 0;
+            for(Skill i: knownSkills){
+                overLord.getTextArea().append(x + ". ");
+                overLord.getTextArea().append(i.getName() + "\n");
+            }
+            overLord.getTextArea().append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + "\n");
             String num = JOptionPane.showInputDialog("Which skill? (number)");
             if(num == null){
                 primal();
@@ -380,10 +431,6 @@ public class Actor{
     
     public Skill getActingSkill(){
         return actingSkill;
-    }
-    
-    public ArrayList <Actor> getTargetedBy(){
-        return targetedBy;
     }
     
     public ArrayList <Actor> singleTarget(ArrayList <Actor> A){
@@ -445,5 +492,26 @@ public class Actor{
     
     public void setInitiative(Boolean r){
         initiative = r;
+    }
+    
+    public int getSpacing(){
+        return spacing;
+    }
+    
+    public void setSpacing(int n){
+        spacing = n;
+    }
+    
+    public ArrayList <Debuff> getDebuffs(){
+        return debuffs;        
+    }
+    
+    public int getFlinch(){
+        return flinchMeter;
+    }
+    
+    public void setFlinch(int n){
+        flinchMeter = n;
+        
     }
 }
