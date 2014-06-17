@@ -98,6 +98,18 @@ public class Basic extends SingleTarget{
             Basic opposingBasic = (Basic) opposingSkill;
             first = opposingBasic;
             setTriangleResp();
+            if(opposingBasic == null) {
+                System.out.println("opposing Skill is missing");
+                return;
+            }
+            if(opposingBasic.getTriangle() == null){
+                System.out.println("opposing triangle is missing");
+                return;
+            }
+            if(this.getTriangle() == null){
+                System.out.println("triangle is missing.");
+                return;
+            }
             if(opposingBasic.getTriangle().equals("True") && triangle.equals("Counter")){
                 first = this;
                 second = opposingBasic;

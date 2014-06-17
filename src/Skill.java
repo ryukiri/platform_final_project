@@ -11,7 +11,6 @@ public class Skill {
     public Skill(Actor a){
         a.getKnownSkills().add(this);
         user = a;
-        name = "Generic Skill 1012";
         mainField = user.getLocation().getGameBoard().getMainGame().getTextArea();
     }
     
@@ -32,8 +31,13 @@ public class Skill {
         name = s;
     }
     
-    public void setOpposingSkill(Skill s){
-        opposingSkill = s;
+    public boolean setOpposingSkill(Skill s){
+        if(s == null)
+            return false;
+        else {
+            opposingSkill = s;
+            return true;
+        }
     }
     
     public Skill getOpposingSkill(){

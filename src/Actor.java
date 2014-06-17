@@ -44,7 +44,7 @@ public class Actor{
     private Skill actingSkill;
     private int spacing;
     private int flinchMeter;
-    
+
     
     //debuffs
     private Debuff cripple;
@@ -391,38 +391,107 @@ public class Actor{
             return;
         }
         if(client == true){
-            overLord.getTextArea().append("Skills available:" + "\n");
-            int x = 0;
-            for(Skill i: knownSkills){
-                overLord.getTextArea().append(x + ". ");
-                overLord.getTextArea().append(i.getName() + "\n");
-            }
-            overLord.getTextArea().append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + "\n");
-            String num = JOptionPane.showInputDialog("Which skill? (number)");
-            if(num == null){
-                primal();
-                return;
-            }
-            if(num.equals("")){
-                primal();
-                return;
-            }
-            try{
-                int convertedNum = Integer.parseInt(num);
-                if(convertedNum >= knownSkills.size()){
-                    overLord.getTextArea().append("That skill does not exist." + "\n");
+
+            JFrame frame = getOverLord().getJFrame();
+            Object[] options = {"Attack",
+                    "Move",
+                    "Do Nothing"};
+            int n = JOptionPane.showOptionDialog(
+                    frame,
+                    "Attack or Move?",
+                    "Attack",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if(n == 0){
+                overLord.getTextArea().append("Skills available:" + "\n");
+                int x = 0;
+                for(Skill i: knownSkills){
+                    overLord.getTextArea().append(x + ". ");
+                    overLord.getTextArea().append(i.getName() + "\n");
+                }
+                overLord.getTextArea().append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + "\n");
+                String num = JOptionPane.showInputDialog("Which skill? (number)");
+                if(num == null){
                     primal();
                     return;
                 }
-                if(knownSkills.get(convertedNum) instanceof Skill){
-                    knownSkills.get(convertedNum).ignition();
+                if(num.equals("")){
+                    primal();
+                    return;
+                }
+                try{
+                    int convertedNum = Integer.parseInt(num);
+                    if(convertedNum >= knownSkills.size()){
+                        overLord.getTextArea().append("That skill does not exist." + "\n");
+                        primal();
+                        return;
+                    }
+                    if(knownSkills.get(convertedNum) instanceof Skill){
+                        knownSkills.get(convertedNum).ignition();
+                    }
+                }
+                catch(NumberFormatException NRE){
+                    primal();
+                    return;
                 }
             }
-            catch(NumberFormatException NRE){
-                primal();
+            if(n == 2){
                 return;
             }
-           }
+            if(n == 1) {
+                //Move button
+                Object[] moreOptions = {"North",
+                        "South"};
+                int choice = JOptionPane.showOptionDialog(
+                        frame,
+                        "Where would you like to move?",
+                        "Move",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        moreOptions,
+                        moreOptions[0]);
+
+                //North Button
+                if (choice == 0) {
+                    overLord.getTextArea().append(actorName + " attemps to move north.");
+
+                    for(Actor a: targetedBy){
+                        Offense target = (Offense)a.getActingSkill();
+                        target.damageScene(this);
+                        overLord.getTextArea().append(actorName + " moves 1 space north.");
+                    }
+
+                    for(Debuff d: debuffs){
+                        if(d.getName().equals("stagger")){
+                            return;
+                        }
+                    }
+                    spacing++;
+
+                //South Button
+                }else if (choice == 1) {
+                    overLord.getTextArea().append(actorName + " attemps to move south.");
+
+                    for(Actor a: targetedBy){
+                        Offense target = (Offense)a.getActingSkill();
+                        target.damageScene(this);
+                        overLord.getTextArea().append(actorName + " moves 1 space south.");
+                    }
+
+                    for(Debuff d: debuffs){
+                        if(d.getName().equals("stagger")){
+                            return;
+                        }
+                    }
+                    spacing--;
+                }
+            }
+        }
         else{
             knownSkills.get(0).ignition();
         }

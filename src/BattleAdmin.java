@@ -11,7 +11,13 @@ public class BattleAdmin {
         teamB = new ArrayList <Actor>();
         location = r;
         mainField = J;
-        for(Actor a : location.getActorList()){
+        for(Actor a : location.getActorList()) {
+            for (Gear g : a.getEquipList()) {
+                if (g instanceof Sword) {
+                    SwordSlash slash = new SwordSlash(a);
+                }
+            }
+
             Basic x = new Basic(a);
             Dodge d = new Dodge(a);
             a.setFlinch(0);
@@ -46,7 +52,10 @@ public class BattleAdmin {
         for(Actor a : orderedList){
             System.out.println(a.getName() + orderedList.lastIndexOf(a));
             a.primal();
-            a.getActingSkill().activate(a.getOpposingTeam());
+            if(a.getActingSkill() != null){
+                a.getActingSkill().activate(a.getOpposingTeam());
+            }
+
         }
         for(Actor a : orderedList){
             ArrayList <Actor> newList = new ArrayList <Actor> ();

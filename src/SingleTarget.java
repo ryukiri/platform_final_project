@@ -26,7 +26,9 @@ public class SingleTarget extends Offense {
             return;
         }
         for(Actor target : targets){
-            setOpposingSkill(target.getActingSkill());
+            if(setOpposingSkill(target.getActingSkill()) == false){
+                return;
+            }
             atkMsg(target);
             if(target.getActingSkill() instanceof Offense){
                 vsOffense();

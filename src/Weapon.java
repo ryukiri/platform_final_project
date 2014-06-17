@@ -14,6 +14,7 @@ public class Weapon extends Gear {
     private Actor actor;
     private int attackVal;
     private int range;
+    private Offense basicSkill;
     
     public Weapon(Actor a, String newSlot, int atkVal, int atkRange){
         super(a, newSlot);
@@ -93,5 +94,9 @@ public class Weapon extends Gear {
     public int process(Actor a, int x){
         System.out.println((double) a.getStr().getValue()/20 + " strength modifier");
         return (int) (x * (1 + (double) a.getStr().getValue()/20 ));
+    }
+
+    public void setBasicSkill(Offense s){
+        basicSkill = s;
     }
 }
