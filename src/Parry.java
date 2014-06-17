@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,6 +17,16 @@ public class Parry extends Defense {
         super(a);
     }
     //min(100,max(15,0.15*sqrt(x) * 100))
+    
+     public void activate(ArrayList <Actor> a){
+         for(Gear g : getUser().getEquipList()){
+             if(g instanceof Sword){
+                 super.activate(a);
+                 return;
+             }
+         }
+         getMainField().append("This is the incorrect weapon to use! \n.");
+     }
     
     @Override
     public void vsOffense(Offense opposingSkill){
