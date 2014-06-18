@@ -1,9 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.net.SocketPermission;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MainGame extends JPanel implements ActionListener {
+    private static int temporary;
     private static JButton moveButton;
     private static JButton observeButton;
     private static JButton abortButton;
@@ -39,6 +42,7 @@ public class MainGame extends JPanel implements ActionListener {
     private static JTextArea textArea;
     private final static String newline = "\n";
     private final static JFrame frame = new JFrame("Server");
+    private String line = "----------------------------------------------------------------------------------------------------------------------------------------------------------------";
     private static GameBoard mainBoard;
     private static MapGUI map;
     private static ActionListener buttonListener;
@@ -135,7 +139,8 @@ public class MainGame extends JPanel implements ActionListener {
                 Object[] options = {"North",
                         "South",
                         "East",
-                        "West"};
+                        "West",
+                        "Attack"};
                 int n = JOptionPane.showOptionDialog(
                         frame,
                         "Where would you like to move?",
@@ -152,11 +157,17 @@ public class MainGame extends JPanel implements ActionListener {
                     if (relativeLoc.getNorth() != null) {
                         player.move(relativeLoc, relativeLoc.getNorth());
                     }
+                    if(player.getLocation().getContentEnemies().size() != 0){
+                        fight();
+                    }
                 } else if (n == 1) {
                     if(map != null)
                         map.revalid();
                     if (relativeLoc.getSouth() != null) {
                         player.move(relativeLoc, relativeLoc.getSouth());
+                    }
+                    if(player.getLocation().getContentEnemies().size() != 0){
+                        fight();
                     }
                 } else if (n == 2) {
                     if(map != null)
@@ -164,14 +175,22 @@ public class MainGame extends JPanel implements ActionListener {
                     if (relativeLoc.getEast() != null) {
                         player.move(relativeLoc, relativeLoc.getEast());
                     }
+                    if(player.getLocation().getContentEnemies().size() != 0){
+                        fight();
+                    }
                 } else if (n == 3) {
                     if(map != null)
                         map.revalid();
                     if (relativeLoc.getWest() != null) {
                         player.move(relativeLoc, relativeLoc.getWest());
                     }
+                    if(player.getLocation().getContentEnemies().size() != 0){
+                        fight();
+                    }
                 } else if (n == JOptionPane.CLOSED_OPTION) {
                     textArea.append("Movement Canceled" + newline);
+                }else if (n == 4){
+                        fight();
                 }
             } else if (source == observeButton) {
                 textArea.append(relativeLoc.getDesc() + newline);
@@ -257,6 +276,7 @@ public class MainGame extends JPanel implements ActionListener {
                         options,
                         options[0]);
                 if (n == 0) {
+                    //Equip
                     String choice = JOptionPane.showInputDialog(frame, "Equip which item? (number)");
                     if( choice == null){
                         return;
@@ -284,7 +304,7 @@ public class MainGame extends JPanel implements ActionListener {
                     }
 
                 }else if (n == 1) {
-       
+                    //Pick up
                     String choice = JOptionPane.showInputDialog(frame, "Which item? (number)");
                     if( choice == null){
                         return;
@@ -310,6 +330,7 @@ public class MainGame extends JPanel implements ActionListener {
                     }
 
                 }else if(n == 2){
+                    //Unequip button
                     String choice = JOptionPane.showInputDialog(frame, "Unequip which item? (number)");
                     if( choice == null){
                         return;
@@ -385,24 +406,29 @@ public class MainGame extends JPanel implements ActionListener {
                         if (player.getContents().get(convertedNum) instanceof Item) {
                             player.getContents().get(convertedNum).remove();
                             textArea.append("You have destroyed " + player.getContents().get(convertedNum).getName() + newline);
-                            textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
                         } else {
                             textArea.append("That item does not exist." + newline);
-                            textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
                         }
                     }
                     catch(NumberFormatException NRE){
                         textArea.append("Please enter a legit number!" + newline);
-                        textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                        textArea.append(line);
+                        textArea.append(newline);
                         return;
                     }
                     catch(NullPointerException NRE){
                         textArea.append("Please enter a legit number!" + newline);
-                        textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                        textArea.append(line);
+                        textArea.append(newline);
                         return;
                     }catch(IndexOutOfBoundsException NRE){
                         textArea.append("You do not have that item. Please enter a legit number!" + newline);
-                        textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                        textArea.append(line);
+                        textArea.append(newline);
                         return;
                     }
                 }
@@ -436,9 +462,169 @@ public class MainGame extends JPanel implements ActionListener {
         frame.setVisible(true);
     }
 
+    private void fight(){
+        Actor player = mainBoard.getPlayer();
+        try {
+            int count = 0;
+            for(Actor a: player.getLocation().getContentEnemies()){
+                textArea.append(count + " ");
+                textArea.append(a.getName() + newline);
+                count++;
+            }
+            String choice = JOptionPane.showInputDialog(frame, "Fight who? (number)");
+            temporary = Integer.parseInt(choice);
+            int loopCounter = player.getLocation().getContentEnemies().get(Integer.parseInt(choice)).getHealth().getValue();
+            while(loopCounter > 0) {
+                if (choice == null) {
+                    return;
+                }
+                if (choice.equals(""))
+                    return;
+
+                int convertedNum = Integer.parseInt(choice);
+                if (convertedNum >= player.getLocation().getContentEnemies().size()) {
+                    textArea.append("That enemy does not exist." + newline);
+                    textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                    return;
+                } else {
+                    Object[] AttackOptions = {"Attack",
+                            "Do Nothing",
+                            "Run"};
+                    int i = JOptionPane.showOptionDialog(
+                            frame,
+                            "Attack?",
+                            "Attack",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            AttackOptions,
+                            AttackOptions[0]);
+                    if (i == 0) {
+                        //Randomly picks number between max attack and min attack
+                        if(player.getSp().getValue() > player.getLocation().getContentEnemies().get(convertedNum).getSp().getValue()){
+                            //Player attacks enemy
+                            int pAttack = (int)(Math.random()*(player.getAtkVal().getMaxValue()-player.getAtkVal().getValue()) + player.getAtkVal().getValue());
+                            int health =
+                                    player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() -
+                                            pAttack;
+                            player.getLocation().getContentEnemies().get(convertedNum).setHealth(new Stat("Health", health, player.getLocation().getContentEnemies().get(convertedNum)));
+
+                            //Enemy attacks player
+                            int eAttack = (int)(Math.random()*(player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getMaxValue()-
+                                    player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) + player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue());
+                            int pHealth = player.getHealth().getValue()- eAttack;
+                            player.getHealth().setValue(pHealth);
+                        }else{
+                            //Enemy attacks player
+                            int eAttack = (int)(Math.random()*(player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getMaxValue()-
+                                    player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) + player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue());
+                            int pHealth = player.getHealth().getValue()- eAttack;
+                            player.getHealth().setValue(pHealth);
+
+                            //Player attacks enemy
+                            int pAttack = (int)(Math.random()*(player.getAtkVal().getMaxValue()-player.getAtkVal().getValue()) + player.getAtkVal().getValue());
+                            int health =
+                                    player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() -
+                                            pAttack;
+                            player.getLocation().getContentEnemies().get(convertedNum).setHealth(new Stat("Health", health, player.getLocation().getContentEnemies().get(convertedNum)));
+
+                        }
+
+
+                        if(player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() <= 0){
+                            textArea.append("Enemy's health: " + 0 + newline);
+                            textArea.append("You have defeated the enemy. " + newline);
+                            loopCounter = -10;
+                            textArea.append(line);
+                            textArea.append(newline);
+                            int exp = player.getXp().getValue();
+                            exp+=5;
+                            player.getXp().setValue(exp);
+                            //Level up
+                            if(exp%10 == 0){
+                                player.getLevel().setValue(player.getLevel().getValue()+1);
+                                player.getHealth().setValue(player.getHealth().getValue()+4);
+                                player.getHealth().setMaxValue(player.getHealth().getMaxValue()+4);
+                                player.getSp().setValue(player.getSp().getValue()+2);
+                            }
+
+                        }else if(player.getHealth().getValue() <= 0){
+                            textArea.append("Your's health: " + 0 + newline);
+                            textArea.append("You have been defeated. " + newline);
+                            textArea.append("System will shut down in 5 seconds. " + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
+                            loopCounter = -10;
+                        }else{
+                            textArea.append("Enemy's health: " + player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() + newline);
+                            textArea.append("Your's health: " + player.getHealth().getValue() + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
+                        }
+
+                    }else if(i == 1){
+                        int eAttack = (int)(Math.random()*(player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getMaxValue()-
+                                player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) + player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue());
+                        int pHealth = player.getHealth().getValue()- eAttack;
+                        player.getHealth().setValue(pHealth);
+                        if(player.getHealth().getValue() <= 0){
+                            textArea.append("Your's health: " + 0 + newline);
+                            textArea.append("You have been defeated. " + newline);
+                            textArea.append("System will shut down in 5 seconds. " + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
+                            loopCounter = 0;
+                        }else{
+                            textArea.append("Enemy's health: " + player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() + newline);
+                            textArea.append("Your's health: " + player.getHealth().getValue() + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
+                        }
+                        textArea.append(line);
+                        textArea.append(newline);
+                    }else if(i == 2){
+                        player.getLocation().getContentEnemies().remove(temporary);
+                        loopCounter = 0;
+                        textArea.append("You have lost 10 health from dodging attacks. " + newline + line + newline);
+                        if(player.getHealth().getValue()>=10){
+                            player.getHealth().setValue(player.getHealth().getValue()-10);
+                        }else {
+                            player.getHealth().setValue(0);
+                            textArea.append("You have died. " + newline);
+                            textArea.append("System will shut down in 5 seconds. " + newline);
+                            textArea.append(line);
+                            textArea.append(newline);
+                        }
+                    }
+                }
+            }
+        }catch (NumberFormatException NRE) {
+            textArea.append("Please enter a legit number!" + newline);
+            textArea.append(line);
+            textArea.append(newline);
+            return;
+        }catch (IndexOutOfBoundsException NRE) {
+            textArea.append("Enemy does not exist!" + newline);
+            textArea.append(line);
+            textArea.append(newline);
+            return;
+        }
+        player.getLocation().getContentEnemies().remove(temporary);
+    }
+
+
+    public void shutdown(){
+        //Source: http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            //Handle exception
+        }
+    }
+
     private static void buttons(){
         //Buttons
-        moveButton = new JButton("Move");
+        moveButton = new JButton("Action");
         observeButton = new JButton("Observe");
         abortButton = new JButton("Abort");
         mapButton = new JButton("Map");

@@ -59,8 +59,6 @@ public class Weapon extends Gear {
         int x = (atk+(lv*y)+y)/2;
 
         attackVal = x;
-        System.out.println("y= " + y);
-        System.out.println("attack value: " + attackVal);
     }
     
     public int getAttackVal(){

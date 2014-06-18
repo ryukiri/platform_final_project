@@ -35,10 +35,6 @@ public class GameBoard {
 
         level = player.getLevel().getValue();
 
-        //Enemies
-        enemy = new Enemy(10, 10, 2, Centauri);
-        enemy.setActorName("Enemy");
-
         //Centauri
         Centauri = new Room(6,0,this, "CEN");
         Centauri.setName("Centauri");
@@ -49,10 +45,16 @@ public class GameBoard {
         fastest.move(Centauri);
         spawnRandomDungeon(Centauri);
 
+        Sword superSword = new Sword(Centauri, "Blasting Wand", 2, 34);
+
         drug = new MedKit(player, 12);
         drug.setName("Potion");
         drug = new MedKit(player, -12);
         drug.setName("Poison");
+
+        //Enemies
+        enemy = new Enemy(2, 5, 7, 6, Centauri);
+        enemy.setActorName("Practice Dummy");
 
         roomList.add(Centauri);
 
@@ -96,9 +98,13 @@ public class GameBoard {
             }else if(box.getName().equals("Kitchen")){
                 Fork fork = new Fork(box, 6, level);
                 CookingPan pan = new CookingPan(box, 10, level);
+                enemy = new Enemy(10, 10, 2, box);
+                enemy.setActorName("Enemy");
             }else if(box.getName().equals("Abandoned Barracks")){
                 BulletProofVest vest = new BulletProofVest(box, 20, level);
                 WheelBarrow barrow = new WheelBarrow(box, 15, level);
+                enemy = new Enemy(10, 10, 2, box);
+                enemy.setActorName("Enemy");
             }else if(box.getName().equals("Lodging Area")){
                 LightningRod stick = new LightningRod(box, 12, level);
             }else if(box.getName().equals("Storage Room")){
@@ -118,6 +124,7 @@ public class GameBoard {
             }else if(box.getName().equals("Centauri")){
                 drug = new MedKit(box, -22);
                 drug.setName("Poison");
+                Hammer hammer = new Hammer(box, 8, level);
             }else if(box.getName().equals("Waste Management Facility")){
 
             }else if(box.getName().equals("Emergency Space Shuttles")){

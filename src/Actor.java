@@ -40,6 +40,8 @@ public class Actor{
     private Room location;
     private String allies;
     private Skill actingSkill;
+    private String line = "----------------------------------------------------------------------------------------------------------------------------------------------------------------";
+
 
     public Actor(String newName){
         actorName = newName;
@@ -69,12 +71,12 @@ public class Actor{
         actorName = name;
     }
 
-    public void setLevel(Stat l){
-        level = l;
-    }
-
     public void setHealth(Stat h){
         health = h;
+    }
+
+    public void setLevel(Stat l){
+        level = l;
     }
 
     public void setAtkVal(Stat a){
@@ -104,7 +106,7 @@ public class Actor{
         apt = new Stat("Aptitude",0, "skill", this);
         atkVal = new Stat("Attack Value", 0, 0, "range", this);
         defVal = new Stat("Defense Value",0,"skill", this);
-        sp = new Stat("Speed", 0, "skill", this);
+        sp = new Stat("Speed", 4, "skill", this);
         baseSp = new Stat("Base Speed", 0, "skill", this);
         momentum = new Stat("Momentum", 0, "skill", this);
         contents = new ArrayList <Item> ();
@@ -210,7 +212,7 @@ public class Actor{
         location.getGameBoard().getMainGame().getTextArea().append("You have unequipped " + g.getName() + "\n");
         g.unequipEffect(this);
     }
-    
+
     public Stat getHealth(){
         return health;
     }
@@ -341,15 +343,12 @@ public class Actor{
         b.getActorList().add(this);
         setLocation(b);
         if(overLord instanceof MainGame)
-            overLord.getTextArea().append(" to " + b.getName() + "." + "\n");
+            overLord.getTextArea().append(" to " + b.getName() + "." + "\n" + line + "\n");
         int x = 0;
         for(Actor A : b.getActorList()){
             if(A.getAllies() == null || !A.getAllies().equals("player")){
                 x++;
             }           
-        }
-        if(x != 0 ){
-            BattleAdmin battle = new BattleAdmin(b);
         }
     }
     
