@@ -49,7 +49,7 @@ public class Map extends JComponent {
                         g2.setColor( Color.RED );
                         g2.drawRect( sRow, sColumn, 30,30);
                         try {
-                            img = ImageIO.read(new File("android.png"));
+                            img = ImageIO.read(new File("src/android.png"));
                         } catch (IOException ex) {
                             Logger.getLogger(GraphicComponent.class.getName()).log(Level.SEVERE, null, ex);
                         }

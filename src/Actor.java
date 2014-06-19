@@ -213,7 +213,6 @@ public class Actor{
     
     public void unequip(Gear g){
         equipList.remove(g);
-        contents.add(g);
         location.getGameBoard().getMainGame().getTextArea().append("You have unequipped " + g.getName() + "\n");
         g.unequipEffect(this);
     }

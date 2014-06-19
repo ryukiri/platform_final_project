@@ -449,8 +449,11 @@ public class MainGame extends JPanel implements ActionListener {
             if(sourceMenu == quit){
                 System.exit(0);
             }else if(sourceMenu == gameHelp){
-                JOptionPane.showMessageDialog(frame, "FAQs and Help will go here. Feel free to populate this menu" +
-                        "with more stuff and a scroll bar and buttons.");
+                JOptionPane.showMessageDialog(frame, "The objective is to survive until the end. Enemies will attempt to attack you." + newline +
+                        "If you run, you will lose 10 HP. If you do nothing, the enemy will still attack you." + newline +
+                        "When your stamina reaches below 3, you are too tired to attack. To recover you must do nothing during battle." + newline +
+                        "Each time you do nothing, your stamina will go up by 1. Each time you attack or get attacked, your stamina goes down 3." + newline +
+                        "There are also invisible walls at random places. If you encounter one, go around it. You will not get through by force.");
             }
         }
     }
