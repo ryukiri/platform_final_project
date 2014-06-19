@@ -91,6 +91,10 @@ public class Actor{
         sp = s;
     }
 
+    public void setStam(Stat st){
+        stamina = st;
+    }
+
     public void initStats(){
         level = new Stat("Level", 1, "skill", this);
         health = new Stat("Health", 50, this);
@@ -209,6 +213,7 @@ public class Actor{
     
     public void unequip(Gear g){
         equipList.remove(g);
+        contents.add(g);
         location.getGameBoard().getMainGame().getTextArea().append("You have unequipped " + g.getName() + "\n");
         g.unequipEffect(this);
     }

@@ -5,12 +5,12 @@ public class BulletProofVest extends Armor{
     private int defVal;
 
     public BulletProofVest(Room r, String s){
-        super(r, "Body", 0);
+        super(r, "chest", 0);
         setName(s);
     }
 
     public BulletProofVest(Room r, String s, int newValue, int newRange){
-        super(r, "Body", newValue);
+        super(r, "chest", newValue);
         setName(s);
     }
 

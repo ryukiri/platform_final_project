@@ -16,7 +16,7 @@ public class ConstructionHelmet extends Armor {
     }*/
 
     public ConstructionHelmet(Room r, int dVal, int level){
-        super(r, "floor", dVal, 0, "Construction Helmet", level);
+        super(r, "head", dVal, 0, "Construction Helmet", level);
         defVal = dVal;
     }
 }

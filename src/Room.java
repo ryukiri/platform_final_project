@@ -44,7 +44,7 @@ public class Room {
         int randomNum = (int) ((Math.random()*20)+1);
         if(randomNum == 1){
             name = "Medical Bay";
-            desc = "A medical bay stands before you. Maybe there are some medical kits to be had here.";
+            desc = "A medical bay stands before you. Maybe there are some medical kits here.";
             symbol = "MDB";
         }
         if(randomNum == 2){

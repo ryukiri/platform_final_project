@@ -23,7 +23,7 @@ public class Map extends JComponent {
         // http://stackoverflow.com/questions/18777893/jframe-background-image
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("space.jpg"));
+            img = ImageIO.read(new File("src/space.jpg"));
         } catch (IOException ex) {
             Logger.getLogger(GraphicComponent.class.getName()).log(Level.SEVERE, null, ex);
         }

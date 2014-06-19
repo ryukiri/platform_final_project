@@ -4,8 +4,13 @@ import javax.swing.*;
 import java.net.SocketPermission;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainGame extends JPanel implements ActionListener {
+    private static ActionListener buttonListener;
+    private static ActionListener menuListener;
     private static int temporary;
     private static JButton moveButton;
     private static JButton observeButton;
@@ -45,8 +50,7 @@ public class MainGame extends JPanel implements ActionListener {
     private String line = "----------------------------------------------------------------------------------------------------------------------------------------------------------------";
     private static GameBoard mainBoard;
     private static MapGUI map;
-    private static ActionListener buttonListener;
-    private static ActionListener menuListener;
+
 
     public MainGame() {
         super(new GridBagLayout());
@@ -129,9 +133,6 @@ public class MainGame extends JPanel implements ActionListener {
         if(event.getSource() instanceof JButton) {
 
             if (source == moveButton) {
-                //mainBoard.putItems();
-                //System.out.print("Location " + mainBoard.getPlayer().getLocation().getName());
-                //mainBoard.getPlayer().getLocation().placeItems();
                 /**Custom Button Text
                  * Source: http://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
                  * http://stackoverflow.com/questions/1257420/making-a-joptionpane-with-4-options
@@ -207,7 +208,7 @@ public class MainGame extends JPanel implements ActionListener {
                     textArea.append("Items available to be picked up:" + newline);
                     int x = 0;
                     for(Item i: player.getLocation().getContents()){
-                        textArea.append(x + " ");
+                        textArea.append(x + " " );
                         textArea.append(i.getName() + newline);
                         x++;
                     }
@@ -287,12 +288,13 @@ public class MainGame extends JPanel implements ActionListener {
                         int convertedNum = Integer.parseInt(choice);
                         if (convertedNum >= player.getContents().size()) {
                             textArea.append("That item does not exist." + newline);
-                            textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                            textArea.append(line);
                             return;
                         }
                         Item decided = player.getContents().get(convertedNum);
                         if (decided instanceof Gear) {
                             player.equip((Gear) decided);
+                            player.getContents().remove(convertedNum);
                         } else {
                             textArea.append("This item is not equippable." + newline);
                             textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
@@ -300,6 +302,10 @@ public class MainGame extends JPanel implements ActionListener {
                     }catch(NumberFormatException NRE){
                         textArea.append("Please enter a legit number!" + newline);
                         textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
+                        return;
+                    }catch(ConcurrentModificationException NRE){
+                        textArea.append("You need to unequip current item before equiping another." + newline);
+                        textArea.append(line);
                         return;
                     }
 
@@ -340,6 +346,7 @@ public class MainGame extends JPanel implements ActionListener {
                     try {
                         int convertedNum = Integer.parseInt(choice);
                         Gear decided = player.getEquipList().get(convertedNum);
+                        player.getContents().add(decided);
                         if (convertedNum >= player.getEquipList().size()) {
                             textArea.append("That item does not exist." + newline);
                             textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
@@ -373,6 +380,10 @@ public class MainGame extends JPanel implements ActionListener {
                         int convertedNum = Integer.parseInt(num);
                         if (player.getContents().get(convertedNum) instanceof Item) {
                             player.getContents().get(convertedNum).use();
+                            if(player.getHealth().getValue()<=0){
+                                player.getHealth().setValue(0);
+                                shutdown();
+                            }
                         } else {
                             textArea.append("That item does not exist." + newline);
                             textArea.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------" + newline);
@@ -500,10 +511,12 @@ public class MainGame extends JPanel implements ActionListener {
                             AttackOptions,
                             AttackOptions[0]);
                     if (i == 0) {
+                        //Attack Option
                         //Randomly picks number between max attack and min attack
                         if(player.getSp().getValue() > player.getLocation().getContentEnemies().get(convertedNum).getSp().getValue()){
                             //Player attacks enemy
-                            int pAttack = (int)(Math.random()*(player.getAtkVal().getMaxValue()-player.getAtkVal().getValue()) + player.getAtkVal().getValue());
+                            int pAttack = (int)(Math.random()*(player.getAtkVal().getMaxValue()-player.getAtkVal().getValue()) + player.getAtkVal().getValue()) -
+                                    player.getLocation().getContentEnemies().get(convertedNum).getDefVal().getValue();
                             int health =
                                     player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() -
                                             pAttack;
@@ -511,9 +524,15 @@ public class MainGame extends JPanel implements ActionListener {
 
                             //Enemy attacks player
                             int eAttack = (int)(Math.random()*(player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getMaxValue()-
-                                    player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) + player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue());
+                                    player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) + player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue())
+                                    - player.getDefVal().getValue();
                             int pHealth = player.getHealth().getValue()- eAttack;
                             player.getHealth().setValue(pHealth);
+
+                            //Lower own stamina
+                            if(player.getStamina().getValue() > 3)
+                                player.getStamina().setValue(player.getStamina().getValue()-3);
+
                         }else{
                             //Enemy attacks player
                             int eAttack = (int)(Math.random()*(player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getMaxValue()-
@@ -528,11 +547,14 @@ public class MainGame extends JPanel implements ActionListener {
                                             pAttack;
                             player.getLocation().getContentEnemies().get(convertedNum).setHealth(new Stat("Health", health, player.getLocation().getContentEnemies().get(convertedNum)));
 
+                            //Lower own stamina
+                            if(player.getStamina().getValue() > 3)
+                                player.getStamina().setValue(player.getStamina().getValue()-3);
                         }
 
 
                         if(player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() <= 0){
-                            textArea.append("Enemy's health: " + 0 + newline);
+                            textArea.append(player.getLocation().getContentEnemies().get(convertedNum).getName() +"'s health: " + 0 + newline);
                             textArea.append("You have defeated the enemy. " + newline);
                             loopCounter = -10;
                             textArea.append(line);
@@ -546,36 +568,56 @@ public class MainGame extends JPanel implements ActionListener {
                                 player.getHealth().setValue(player.getHealth().getValue()+4);
                                 player.getHealth().setMaxValue(player.getHealth().getMaxValue()+4);
                                 player.getSp().setValue(player.getSp().getValue()+2);
+                                player.getStamina().setValue(player.getStamina().getValue()+2);
                             }
 
                         }else if(player.getHealth().getValue() <= 0){
                             textArea.append("Your's health: " + 0 + newline);
-                            textArea.append("You have been defeated. " + newline);
-                            textArea.append("System will shut down in 5 seconds. " + newline);
+                            shutdown();
                             textArea.append(line);
                             textArea.append(newline);
                             loopCounter = -10;
+
                         }else{
-                            textArea.append("Enemy's health: " + player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() + newline);
+                            //Shows opponent's health and your health
+                            textArea.append(player.getLocation().getContentEnemies().get(convertedNum).getName() +"'s health: " +
+                                    player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() + newline);
                             textArea.append("Your's health: " + player.getHealth().getValue() + newline);
+                            int atk = player.getAtkVal().getValue();
+                            int maxAtk = player.getAtkVal().getMaxValue();
+                            if(player.getStamina().getValue() <= 3){
+                                textArea.append("You are too tired to attack. Wait a few turns.");
+                                player.getAtkVal().setValue(0);
+                                player.getAtkVal().setMaxValue(0);
+                            }
                             textArea.append(line);
                             textArea.append(newline);
                         }
 
                     }else if(i == 1){
+                        //Do nothing
+
                         int eAttack = (int)(Math.random()*(player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getMaxValue()-
-                                player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) + player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue());
+                                player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue()) +
+                                player.getLocation().getContentEnemies().get(convertedNum).getAtkVal().getValue());
                         int pHealth = player.getHealth().getValue()- eAttack;
                         player.getHealth().setValue(pHealth);
+
+                        if(player.getStamina().getValue() != player.getStamina().getMaxValue()){
+                            player.getStamina().setValue(player.getStamina().getValue()+1);
+                        }
+
+                        //If you died...
                         if(player.getHealth().getValue() <= 0){
                             textArea.append("Your's health: " + 0 + newline);
-                            textArea.append("You have been defeated. " + newline);
-                            textArea.append("System will shut down in 5 seconds. " + newline);
                             textArea.append(line);
                             textArea.append(newline);
                             loopCounter = 0;
+                            shutdown();
                         }else{
-                            textArea.append("Enemy's health: " + player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() + newline);
+                            //Shows opponent's health and your health
+                            textArea.append(player.getLocation().getContentEnemies().get(convertedNum).getName() +"'s health: "
+                                    + player.getLocation().getContentEnemies().get(convertedNum).getHealth().getValue() + newline);
                             textArea.append("Your's health: " + player.getHealth().getValue() + newline);
                             textArea.append(line);
                             textArea.append(newline);
@@ -590,10 +632,9 @@ public class MainGame extends JPanel implements ActionListener {
                             player.getHealth().setValue(player.getHealth().getValue()-10);
                         }else {
                             player.getHealth().setValue(0);
-                            textArea.append("You have died. " + newline);
-                            textArea.append("System will shut down in 5 seconds. " + newline);
                             textArea.append(line);
                             textArea.append(newline);
+                            shutdown();
                         }
                     }
                 }
@@ -608,17 +649,28 @@ public class MainGame extends JPanel implements ActionListener {
             textArea.append(line);
             textArea.append(newline);
             return;
+        }try {
+            player.getLocation().getContentEnemies().remove(temporary);
+        }catch(IndexOutOfBoundsException NRE){
+
         }
-        player.getLocation().getContentEnemies().remove(temporary);
     }
 
-
     public void shutdown(){
-        //Source: http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            //Handle exception
+        Object[] options = {"Ok"};
+        int n = JOptionPane.showOptionDialog(
+                frame,
+                "You have been defeated.",
+                "End",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if(n == 0){
+            System.exit(0);
+        }else if(n == JOptionPane.CLOSED_OPTION){
+            System.exit(0);
         }
     }
 
@@ -629,7 +681,7 @@ public class MainGame extends JPanel implements ActionListener {
         abortButton = new JButton("Abort");
         mapButton = new JButton("Map");
         inventoryButton = new JButton("Inventory");
-        skillButton = new JButton("Skills");
+        //skillButton = new JButton("Skills");
         //Add button listeners
         buttonListener = new MainGame(1);
         moveButton.addActionListener(buttonListener);
@@ -637,7 +689,7 @@ public class MainGame extends JPanel implements ActionListener {
         abortButton.addActionListener(buttonListener);
         mapButton.addActionListener(buttonListener);
         inventoryButton.addActionListener(buttonListener);
-        skillButton.addActionListener(buttonListener);
+        //skillButton.addActionListener(buttonListener);
     }
 
     private static void panels(){
@@ -676,7 +728,7 @@ public class MainGame extends JPanel implements ActionListener {
         buttonPanel.add(abortButton);
         buttonPanel.add(mapButton);
         buttonPanel.add(inventoryButton);
-        buttonPanel.add(skillButton);
+        //buttonPanel.add(skillButton);
 
         //Add stuff to main panel
         mainPanel.add(textPanel);

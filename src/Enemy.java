@@ -36,6 +36,22 @@ public class Enemy extends Actor {
         a.getContentEnemies().add(this);
     }
 
+    public Enemy(int lv, int atk, int def, int sp, int health, int stam, int str, Room a) {
+        location = a;
+        getRanNumAtk(atk, lv);
+        getRanNumDef(def, lv);
+        getRanNumSpeed(sp, lv);
+        //initialize stats
+        setLevel(new Stat("Level", lv, "skill", this));
+        setHealth(new Stat("Health", health, this));
+        setAtkVal(new Stat("Attack Value", attack, attack + (int) (Math.random() * 8) + 2, "range", this));
+        setDefVal(new Stat("Defense Value", defense, "skill", this));
+        setSp(new Stat("Speed", speed, "skill", this));
+        setStam(new Stat("Stamina", stam, this));
+        setLocation(a);
+        a.getContentEnemies().add(this);
+    }
+
     public void setName(String name) {
         setActorName(name);
     }
@@ -65,5 +81,6 @@ public class Enemy extends Actor {
         setAtkVal(new Stat("Attack Value", attack, attack + (int) (Math.random() * 8) + 2, "range", this));
         setDefVal(new Stat("Defense Value", defense, "skill", this));
         setSp(new Stat("Speed", speed, "skill", this));
+        setStam(new Stat("Stamina", 10, this));
     }
 }
